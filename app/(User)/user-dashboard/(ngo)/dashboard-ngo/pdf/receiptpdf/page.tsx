@@ -111,10 +111,18 @@ export interface ReceiptDocumentPdfProps {
  * 🧾 Dynamic PDF Generator
  * Company info from profile + transaction info from receipt
  */
-export const ReceiptDocument: React.FC<ReceiptDocumentPdfProps> = ({
+
+
+// export default function ReceiptDocument: React.FC<ReceiptDocumentPdfProps> ({
+//   transaction,
+//   company,
+// })
+//   return(
+export default function ReceiptDocument({
   transaction,
   company,
-}) => (
+}: ReceiptDocumentPdfProps){
+  return(
   <Document>
     <Page size="A4" style={styles.page}>
       <View style={styles.borderBox}>
@@ -225,4 +233,4 @@ export const ReceiptDocument: React.FC<ReceiptDocumentPdfProps> = ({
       </View>
     </Page>
   </Document>
-);
+)};

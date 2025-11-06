@@ -143,10 +143,10 @@ interface IDCardPDFProps {
 }
 
 // 🪪 ID Card Component (single-page compact)
-export const IDCardPDF = ({
+export default function IDCardPDF({
   IdCard,
   company
-}: IDCardPDFProps) => {
+}: IDCardPDFProps){
   const formatDate = (dateString: string) => {
     if (!dateString) return "";
     const date = new Date(dateString);

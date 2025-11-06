@@ -258,598 +258,599 @@ const numberToWords = (num: number): string => {
     return `${rupeesInWords} Rupees${paiseInWords} Only`;
 };
 
+export default function SolarProposalPDF({
+    proposal,
+    company,
+    showWatermark = false
+}: SolarProposalPDFProps) {
+    return (
+        <Document>
+            {/* PAGE 1: COVER */}
+            <Page size="A4" style={styles.page}>
+                {showWatermark && (
+                    <Image
+                        src={logo.src}
+                        style={{
+                            position: "absolute",
+                            top: "30%",
+                            left: "50%",
+                            transform: "translate(-50%, -50%) rotate(-30deg)",
+                            opacity: 0.1,
+                            width: "70%",
+                        }}
+                    />
+                )}
+                <View>
 
-
-
-
-export const SolarProposalPDF: React.FC<SolarProposalPDFProps> = ({ proposal, company, showWatermark = false }) => (
-    <Document>
-        {/* PAGE 1: COVER */}
-        <Page size="A4" style={styles.page}>
-        {showWatermark && (
-        <Image
-          src={logo.src}
-          style={{
-            position: "absolute",
-            top: "30%",
-            left: "50%",
-            transform: "translate(-50%, -50%) rotate(-30deg)",
-            opacity: 0.1,
-            width: "70%",
-          }}
-        />
-      )}
-            <View>
-
-                <Image src={company.logo} style={styles.logoTop} />
-            </View>
-            {/* Prepared By / For */}
-            <View style={styles.row2}>
-                <View style={styles.column2}>
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, fontWeight: "Bold" }}>Prepared For</Text>
-                    <Text style={{
-                        fontFamily: 'Poppins',
-                        fontSize: 12,
-                        lineHeight: 1.5,
-                        textAlign: "justify",
-                    }}>{proposal.clienttitle} {proposal.clientName}</Text>
-
-                    {proposal.clientAddress ? (
+                    <Image src={company.logo} style={styles.logoTop} />
+                </View>
+                {/* Prepared By / For */}
+                <View style={styles.row2}>
+                    <View style={styles.column2}>
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, fontWeight: "Bold" }}>Prepared For</Text>
                         <Text style={{
                             fontFamily: 'Poppins',
                             fontSize: 12,
                             lineHeight: 1.5,
                             textAlign: "justify",
-                        }}>
-                            <Image source={location.src} style={{ width: 12, height: 12, marginRight: 4 }} /><Text>  {proposal.clientAddress}</Text>
-                        </Text>) : null}
-                    <View style={styles.row}>
+                        }}>{proposal.clienttitle} {proposal.clientName}</Text>
 
-                        {proposal.clientPhone ? (
+                        {proposal.clientAddress ? (
                             <Text style={{
                                 fontFamily: 'Poppins',
                                 fontSize: 12,
                                 lineHeight: 1.5,
                                 textAlign: "justify",
                             }}>
-                                <Image source={phonecall.src} style={{ width: 12, height: 12, marginRight: 4 }} /><Text>  {proposal.clientPhone}</Text>
+                                <Image source={location.src} style={{ width: 12, height: 12, marginRight: 4 }} /><Text>  {proposal.clientAddress}</Text>
                             </Text>) : null}
+                        <View style={styles.row}>
+
+                            {proposal.clientPhone ? (
+                                <Text style={{
+                                    fontFamily: 'Poppins',
+                                    fontSize: 12,
+                                    lineHeight: 1.5,
+                                    textAlign: "justify",
+                                }}>
+                                    <Image source={phonecall.src} style={{ width: 12, height: 12, marginRight: 4 }} /><Text>  {proposal.clientPhone}</Text>
+                                </Text>) : null}
+                        </View>
+                        <View style={styles.row}>
+                            {proposal.clientEmail ? (
+                                <Text style={{
+                                    fontFamily: 'Poppins',
+                                    fontSize: 12,
+                                    lineHeight: 1.5,
+                                    textAlign: "justify",
+                                }}>
+                                    <Image source={communicate.src} style={{ width: 12, height: 12, marginRight: 4 }} /><Text>  {proposal.clientEmail}</Text>
+                                </Text>) : null}
+                        </View>
+                        <Text
+                            style={{
+                                fontFamily: 'Poppins',
+                                fontSize: 12,
+                                lineHeight: 1.5,
+                                textAlign: "justify",
+                            }}
+                        >
+                            <Image src={calander.src} style={{ width: 12, height: 12, marginRight: 4 }} />
+                            Date:{" "}
+                            {proposal.date && !isNaN(new Date(proposal.date).getTime())
+                                ? new Date(proposal.date).toLocaleDateString("en-GB")
+                                : new Date().toLocaleDateString("en-GB")}
+                        </Text>
+
                     </View>
-                    <View style={styles.row}>
-                        {proposal.clientEmail ? (
+                    <View style={{ marginTop: 2, }}>
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, fontWeight: "Bold" }}>{company.name}</Text>
+                        <View>
+                            <Text style={{
+                                fontSize: 12,
+                                lineHeight: 1.5,
+                                textAlign: "justify",
+                            }}>{proposal.name}</Text>
+                        </View>
+                        <View>
                             <Text style={{
                                 fontFamily: 'Poppins',
                                 fontSize: 12,
                                 lineHeight: 1.5,
                                 textAlign: "justify",
                             }}>
-                                <Image source={communicate.src} style={{ width: 12, height: 12, marginRight: 4 }} /><Text>  {proposal.clientEmail}</Text>
-                            </Text>) : null}
+                                <Image source={location.src} style={{ width: 12, height: 12, marginRight: 4 }} />
+                                {company.address}
+                            </Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Image src={phonecall.src} style={{ width: 12, height: 12, marginRight: 4 }} />
+                            <Text style={{
+                                fontSize: 12,
+                                lineHeight: 1.5,
+                                textAlign: "justify",
+                            }}>+91 {company.contactNumber}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Image src={communicate.src} style={{ width: 12, height: 12, marginRight: 4 }} />
+                            <Text style={{
+                                fontSize: 12,
+                                lineHeight: 1.5,
+                                textAlign: "justify",
+                            }}>{company.email}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Image src={worldwide.src} style={{ width: 12, height: 12, marginRight: 4 }} />
+                            <Text style={{
+                                fontSize: 12,
+                                lineHeight: 1.5,
+                                textAlign: "justify",
+                            }}>{company.website}</Text>
+                        </View>
                     </View>
+                </View>
+                <View style={{ marginTop: 5 }}>
+                    <Image src={solarproposal.src} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+                </View>
+                {/* <Text style={styles.footer2}>Page 1 • Cover</Text> */}
+            </Page>
+
+            {/* PAGE 2 */}
+            <Page size="A4" style={styles.page}>
+                {/* Page 2: Welcome */}
+                <View style={{ marginBottom: 10 }}>
+                    <Text style={{ fontFamily: 'Roboto', fontSize: 28, fontWeight: "bold" }}>
+                        Welcome
+                    </Text>
+                    <Text style={{ fontFamily: 'Work Sans', fontSize: 24, fontWeight: "600", marginTop: 6, color: "#1e40af" }}>
+                        {proposal.clienttitle?.toUpperCase()} {proposal.clientName?.toUpperCase()}
+                    </Text>
+                    <View style={styles.blueLine} />
+
+                    <Text style={{ fontSize: 20, marginTop: 12, fontWeight: "bold", fontFamily: "Roboto" }}>
+                        Dear <Text>{proposal.clientName}</Text>,
+                    </Text>
+
+
                     <Text
                         style={{
                             fontFamily: 'Poppins',
-                            fontSize: 12,
+                            fontSize: 14,
+                            marginTop: 10,
                             lineHeight: 1.5,
                             textAlign: "justify",
                         }}
                     >
-                        <Image src={calander.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                        Date:{" "}
-                        {proposal.date && !isNaN(new Date(proposal.date).getTime())
-                            ? new Date(proposal.date).toLocaleDateString("en-GB")
-                            : new Date().toLocaleDateString("en-GB")}
+                        Welcome to {company.name} a brighter, more sustainable future with our solar solutions. We believe that every customer deserves not
+                        just a product, but a complete experience that combines innovation, reliability, and long-term value. Our mission is
+                        to deliver energy systems that perform exceptionally well today and continue to do so for decades to come.
+                    </Text>
+                    <Text
+                        style={{
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            marginTop: 10,
+                            lineHeight: 1.5,
+                            textAlign: "justify",
+                        }}
+                    >
+                        From your very first consultation to the final installation, we’ll walk you through each step of the process with clarity
+                        and transparency. Our expert design team ensures that your solar system is tailored to your unique requirements, whether you’re
+                        seeking maximum efficiency, aesthetic integration, or future scalability. Every decision we make is guided by our commitment to your
+                        satisfaction and peace of mind.
+                    </Text>
+                    <Text
+                        style={{
+                            fontFamily: 'Poppins',
+                            fontSize: 14,
+                            marginTop: 10,
+                            lineHeight: 1.5,
+                            textAlign: "justify",
+                        }}
+                    >
+                        Together, let’s build a future that’s powered by clean, renewable energy. We are excited to partner with you on this journey
+                        and look forward to creating not just a solar project, but a long-term relationship built on trust, service, and shared vision.
                     </Text>
 
-                </View>
-                <View style={{ marginTop: 2, }}>
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, fontWeight: "Bold" }}>{company.name}</Text>
-                    <View>
-                        <Text style={{
-                            fontSize: 12,
-                            lineHeight: 1.5,
-                            textAlign: "justify",
-                        }}>{proposal.name}</Text>
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: "semibold", marginBottom: 2 }}>• High-efficiency panels with long term performance warranty.</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: "semibold", marginBottom: 2 }}>• Robust hot-dip galvanised elevated structure.</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: "semibold", marginBottom: 2 }}>• Turnkey installation with quality-tested BOS components.</Text>
                     </View>
-                    <View>
-                        <Text style={{
-                            fontFamily: 'Poppins',
-                            fontSize: 12,
-                            lineHeight: 1.5,
-                            textAlign: "justify",
-                        }}>
-                            <Image source={location.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                            {company.address}
+                    <View style={{ marginTop: 20 }}>
+                        <Text style={{ fontFamily: 'Poppins', fontWeight: "bold", fontSize: 14, marginBottom: 4, lineHeight: 1 }}>Thanks & Regards,</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontWeight: "600", fontSize: 14, marginBottom: 4, lineHeight: 1 }}>{company.name.toUpperCase()}</Text>
+                        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 4, lineHeight: 1 }}>
+                            <Image src={phonecall.src} style={{ width: 12, height: 12, marginRight: 4 }} />
+                            <Text style={{ fontFamily: 'Poppins', fontSize: 14 }}>+91 {company.contactNumber}</Text>
+                        </View>
+                        <View style={{ flexDirection: "row", alignItems: "center", marginTop: 2, lineHeight: 1 }}>
+                            <Image src={communicate.src} style={{ width: 12, height: 12, marginRight: 4 }} />
+                            <Text style={{ fontFamily: 'Poppins', fontSize: 14 }}>{company.email}</Text>
+                        </View>
+                    </View>
+                    <Image src={banner.src} />
+                </View>
+            </Page>
+            {/* PAGE 3: SPECIFICATIONS & GRAPH */}
+            <Page size="A4" style={styles.page}>
+                <Text style={styles.subHeader}>{proposal.projectsize} KW</Text>
+                <Text style={styles.subHeader2}>Specifications</Text>
+                <View style={styles.specRow}>
+                    <View style={styles.specCol}>
+                        <Text style={styles.specTitle}>Plant Capacity</Text>
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 8 }}>{proposal.projectsize} KW</Text>
+                        <View style={styles.blueLine} />
+                    </View>
+                    <View style={styles.specCol}>
+                        <Text style={styles.specTitle}>Structure Type</Text>
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 8 }}>{proposal.proposalStructure}</Text>
+                        <View style={styles.blueLine} />
+                    </View>
+                    <View style={styles.specCol}>
+                        <Text style={styles.specTitle}>Inverter</Text>
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 8 }}>{proposal.invertortype || proposal.invertorSize}</Text>
+                        <View style={styles.blueLine} />
+                    </View>
+                </View>
+                {/* Solar images and yearly consumption */}
+                <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "space-between" }}>
+                    <View style={{ flexDirection: "column", alignItems: "center" }}>
+                        <Image src={solarpowerplant.src} style={styles.logo} />
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, fontWeight: "semibold" }}>Yearly consumption:</Text>
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, textAlign: "left" }}>{proposal.consumption} kWh</Text>
+                    </View>
+                    <View style={{ flexDirection: "column", alignItems: "center" }}>
+                        <Image src={solargeneration.src} style={styles.logo} />
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, fontWeight: "semibold" }}>Yearly solar generation:</Text>
+                        <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, textAlign: "left" }}>{proposal.generation} kWh</Text>
+                    </View>
+                </View>
+                {/* Graph */}
+                <View style={{ marginTop: 20, marginLeft: 28 }}>
+                    <LineChart10Years
+                        consumption={parseFloat(proposal.consumption || "0")}
+                        generation={parseFloat(proposal.generation || "0")}
+                        width={490}
+                        height={300}
+                    />
+                </View>
+                <Image style={{ marginTop: 20 }} src={graphpageimage.src} />
+            </Page>
+
+            <Page size="A4" style={styles.page}>
+                {/* Commercial Offer & Payment */}
+                <View style={styles.section}>
+                    <Text style={styles.subHeader}>Commercial Offer</Text>
+                    <Text style={{ fontSize: 16, marginBottom: 5, fontFamily: "Poppins" }}>
+                        Price Quote & Payment schedule for {proposal.projectsize} KW {proposal.invertortype} Rooftop Solar System:
+                    </Text>
+                    <View style={styles.table}>
+                        {/* Header */}
+                        <View style={[styles.tableRow, styles.tableHeader]}>
+                            <Text style={styles.tableColHeader}>Description</Text>
+                            <Text style={styles.tableColHeader}>Price / kW</Text>
+                            <Text style={styles.tableColHeader}>Quantity</Text>
+                            <Text style={styles.tableColHeader}>Subtotal</Text>
+                        </View>
+
+                        {/* Product Rows */}
+                        {proposal.rows.map((row: any, i: number) => (
+                            <View key={i} style={styles.tableRow}>
+                                <Text style={styles.tableCol}>{row.description || "Give Description"}</Text>
+                                <Text style={styles.tableColprice}>{row.price || ""}</Text>
+                                <Text style={styles.tableColquantity}>{row.quantitytable || ""}</Text>
+                                <View style={styles.tableColtotal}>
+                                    <Text>
+                                        {(row.price && row.quantitytable)
+                                            ? (row.price * row.quantitytable).toLocaleString("en-IN")
+                                            : ""}
+                                    </Text>
+                                    {row.note?.trim() ? (
+                                        <Text style={{ fontSize: 8 }}>{row.note}</Text>
+                                    ) : null}
+                                </View>
+                            </View>
+                        ))}
+
+
+                        {/* Subtotal */}
+                        <View style={styles.tableRow}>
+                            <Text style={styles.tableCol}>Subtotal</Text>
+                            <Text style={styles.tableColprice}></Text>
+                            <Text style={styles.tableColquantity}></Text>
+                            <Text style={styles.tableColtotal}>{proposal.subtotal}</Text>
+                        </View>
+
+                        {/* GST */}
+                        <View style={styles.tableRow}>
+                            <Text style={styles.tableCol}>GST %</Text>
+                            <Text style={styles.tableColprice}>{proposal.gst > 0 ? `${proposal.gst}%` : ""}</Text>
+                            <Text style={styles.tableColquantity}></Text>
+                            <Text style={styles.tableColtotal}>
+                                {proposal.gstAmount}
+                            </Text>
+                        </View>
+
+                        {/* Other Charges Rows */}
+                        {proposal.otherCharge?.map((charges: any, i: number) => (
+                            <View key={i} style={styles.tableRow}>
+                                <Text style={styles.tableCol}>{charges.description || "Give Description"}</Text>
+                                <Text style={styles.tableColprice}>{charges.price || ""}</Text>
+                                <Text style={styles.tableColquantity}>{charges.quantityother || ""}</Text>
+                                <View style={styles.tableColtotal}>
+                                    {/* Subtotal */}
+                                    <Text>
+                                        {(charges.price && charges.quantityother)
+                                            ? (charges.price * charges.quantityother).toLocaleString("en-IN")
+                                            : ""}
+                                    </Text>
+                                    {charges.note?.trim() ? (
+                                        <Text style={{ fontSize: 8, }}>
+                                            {charges.note}
+                                        </Text>
+                                    ) : null}
+                                </View>
+
+                            </View>
+                        ))}
+                        {/* Total */}
+                        <View style={styles.totalRow}>
+                            <Text style={styles.totalText}>Total Cost</Text>
+                            <Text style={styles.totalText}></Text>
+                            <Text style={styles.totalText}></Text>
+                            <Text style={styles.totalText}>{proposal.total}</Text>
+                        </View>
+
+                        {/* Amount in Words */}
+                        <View
+                            style={{
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                alignItems: "flex-start",
+                                padding: 5,
+                                backgroundColor: "#003366",
+                                flexWrap: "wrap",
+                            }}
+                        >
+                            <Text style={[styles.amountWords, { flexShrink: 0 }]}>Amount in Words:</Text>
+                            <Text
+                                style={[
+                                    styles.amountWords,
+                                    {
+                                        flex: 1,
+                                        textAlign: "right",
+                                        flexWrap: "wrap",
+                                        maxWidth: "70%",
+                                    },
+                                ]}
+                            >
+                                {numberToWords(proposal.total || 0)}
+                            </Text>
+                        </View>
+                    </View>
+
+                    {/* Payment Schedule */}
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={{ fontFamily: "Work Sans", fontWeight: "bold", marginBottom: 5, fontSize: 16 }}>
+                            Payment Schedule
+                        </Text>
+                        <Text style={styles.listItem}>• As a percentage of the Net Value of System.</Text>
+                        <Text style={styles.listItem}>• 30% advance along with Purchase Order.</Text>
+                        <Text style={styles.listItem}>• 65% Before the Dispatch of material.</Text >
+                        <Text style={styles.listItem}>• 5% after installation and commissioning.</Text>
+                    </View>
+
+                    {/* Payment Details */}
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={{ fontFamily: "Work Sans", fontWeight: "bold", marginBottom: 8, fontSize: 20 }}>
+                            Payment Details
+                        </Text>
+                        <Text style={{ fontFamily: "Poppins", fontSize: 16 }}>
+                            Payment can be paid via Cheque / scanner code / Netbanking
+                        </Text>
+                        <Text style={{ fontFamily: "Work Sans", fontSize: 16, fontWeight: "bold" }}>
+                            {proposal.holder}
+                        </Text>
+                        <Text style={{ fontFamily: "Work Sans", fontSize: 16 }}>
+                            <Text style={{ fontWeight: "bold" }}>Bank:</Text> {proposal.bankname}
+                        </Text>
+                        <Text style={{ fontFamily: "Work Sans", fontSize: 16 }}>
+                            <Text style={{ fontWeight: "bold" }}>A/C:</Text>— {proposal.accountnumber}
+                        </Text>
+                        <Text style={{ fontFamily: "Work Sans", fontSize: 16 }}>
+                            <Text style={{ fontWeight: "bold" }}>IFSC:</Text> {proposal.ifsc}
                         </Text>
                     </View>
+
+                    {/* Terms */}
+                    <View style={{ marginTop: 15 }}>
+                        <Text style={{ fontFamily: "Poppins", fontSize: 16 }}>
+                            Terms: Prices are firm for 10 days from offer date. Delivery 2–3 weeks. Force major applies.
+                        </Text>
+                    </View>
+                </View>
+            </Page>
+
+            {/* PAGE 5: BILL OF MATERIALS */}
+            <Page size="A4" style={styles.page}>
+                {/* Bill of Materials Header */}
+                <Text style={styles.subHeader}>Bill of Material</Text>
+
+                {/* Watt, Panels, Type */}
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Solar Panel</Text>
+                    <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>
+                        Panel Brands:
+                    </Text>
+                </View>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Watt Peak: {proposal.Wattpeak} Wp</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Panel NOS: {proposal.quantity}</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
+                            Panel type: {proposal.paneltype}
+                        </Text>
+                    </View>
+                    {/* <View style={{ backgroundColor: "#696969", width: 2, height: 85, marginLeft: 80 }} /> */}
+                    <View>
+                        <View>
+                            {(proposal.panelBrands as string[] | []).map((brand, index) => (
+                                <Text key={index} style={{ fontFamily: 'Poppins', fontSize: 16 }}>
+                                    {brand}
+                                </Text>
+                            ))}
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.blueLine} />
+
+                {/* Inverter & Phase */}
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Solar Inverter</Text>
+                    <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>
+                        Inverter Brands:
+                    </Text>
+                </View>
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
+
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Inverter: {proposal.invertorSize}</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Phase: {proposal.invertorPhase}</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>NOS: {proposal.invertorquantitiy}</Text>
+                    </View>
+                    {/* <View style={{ backgroundColor: "#696969", width: 2, height: 85, marginLeft: 100 }} /> */}
+                    <View>
+                        <View>
+                            {(proposal.invertorBrands as string[] | []).map((brand, index) => (
+                                <Text key={index} style={{ fontFamily: 'Poppins', fontSize: 16 }}>
+                                    {brand}
+                                </Text>
+                            ))}
+                        </View>
+                    </View>
+                </View>
+
+                <View style={styles.blueLine} />
+
+                {/* Cable & Warranty Section */}
+                <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
+                    {/* Cable */}
+                    <View style={{ flexDirection: "row" }}>
+                        <View>
+                            <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Cable</Text>
+                            <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Cable brand: {proposal.cableBrands}</Text>
+                            {proposal.invertortype?.toLowerCase() !== "on grid" && (
+                                <>
+                                    <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Battery</Text>
+                                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
+                                        Battery Brand: {proposal.batteryBrands ? proposal.batteryBrands : 'NA'}
+                                    </Text>
+
+                                    <View>
+                                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
+                                            Battery Type: {proposal.batterytype}
+                                        </Text>
+
+                                        {typeof proposal.batterytype === "string" &&
+                                            proposal.batterytype.toLowerCase() === "lead-acid" &&
+                                            proposal.leadAcidSubtype && (
+                                                <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
+                                                    Battery Capacity: {proposal.leadAcidSubtype}
+                                                </Text>
+                                            )}
+                                    </View>
+                                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Battery Warranty: {proposal.batterywarranty} year(s)</Text>
+                                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Battery NOS: {proposal.batteryquantity}</Text>
+                                </>
+                            )}
+
+                        </View>
+                        {/* <View style={{ backgroundColor: "#696969", width: 2, height: 85, marginLeft: 100 }} /> */}
+                    </View>
+
+                    {/* Warranty */}
+                    <View>
+                        <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Warranty</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Panel Performance: {proposal.performancewarranty} Year(s)</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Panel Product Warranty: {proposal.warranty} Year(s)</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Inverter: {proposal.Invertorwarranty} Year(s)</Text>
+                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Balance of System: {proposal.systemwarranty} Year(s)</Text>
+                    </View>
+                </View>
+                <Image src={Bill.src} />
+            </Page>
+
+            <Page size="A4" style={styles.page2}>
+                <View style={{ marginBottom: 2 }}>
+                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, fontWeight: "bold", marginBottom: 4 }}>Terms & Condition</Text>
+                    <Text style={{
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        marginTop: 10,
+                        lineHeight: 1.2,
+                        textAlign: "justify",
+                    }} >{proposal.termandcondition}</Text>
+                </View>
+                <View style={{ marginBottom: 2 }}>
+                    <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "bold", color: "#2563eb" }}>Balance Of System</Text>
+                    <Text style={{
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        marginTop: 10,
+                        lineHeight: 1.2,
+                        textAlign: "justify"
+                    }}>{proposal.balanceOfSystem}</Text>
+                </View>
+                <View style={{ marginBottom: 2 }}>
+                    <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "bold", color: "#2563eb" }}>Coustomer Scope:</Text>
+                    <Text style={{
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        marginTop: 10,
+                        lineHeight: 1.2,
+                        textAlign: "justify"
+                    }}>{proposal.customerScope}</Text>
+                </View>
+
+                <View>
+                    <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "bold", color: "#2563eb" }}>Our Scope:</Text>
+                    <Text style={{
+                        fontFamily: 'Poppins',
+                        fontSize: 12,
+                        marginTop: 10,
+                        lineHeight: 1.2,
+                        textAlign: "justify"
+                    }}>{proposal.ourScope}</Text>
+                </View>
+                <View style={{ marginTop: 2, }}>
+                    <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "Bold" }}>{company.name.toUpperCase()}</Text>
                     <View style={styles.row}>
                         <Image src={phonecall.src} style={{ width: 12, height: 12, marginRight: 4 }} />
                         <Text style={{
                             fontSize: 12,
-                            lineHeight: 1.5,
+                            lineHeight: 1.2,
                             textAlign: "justify",
                         }}>+91 {company.contactNumber}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Image src={communicate.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                        <Text style={{
-                            fontSize: 12,
-                            lineHeight: 1.5,
-                            textAlign: "justify",
-                        }}>{company.email}</Text>
                     </View>
                     <View style={styles.row}>
                         <Image src={worldwide.src} style={{ width: 12, height: 12, marginRight: 4 }} />
                         <Text style={{
                             fontSize: 12,
-                            lineHeight: 1.5,
+                            lineHeight: 1.2,
                             textAlign: "justify",
                         }}>{company.website}</Text>
                     </View>
-                </View>
-            </View>
-            <View style={{ marginTop: 5 }}>
-                <Image src={solarproposal.src} style={{ width: "100%", height: "100%", objectFit: "contain" }} />
-            </View>
-            {/* <Text style={styles.footer2}>Page 1 • Cover</Text> */}
-        </Page>
-
-        {/* PAGE 2 */}
-        <Page size="A4" style={styles.page}>
-            {/* Page 2: Welcome */}
-            <View style={{ marginBottom: 10 }}>
-                <Text style={{ fontFamily: 'Roboto', fontSize: 28, fontWeight: "bold" }}>
-                    Welcome
-                </Text>
-                <Text style={{ fontFamily: 'Work Sans', fontSize: 24, fontWeight: "600", marginTop: 6, color: "#1e40af" }}>
-                    {proposal.clienttitle?.toUpperCase()} {proposal.clientName?.toUpperCase()}
-                </Text>
-                <View style={styles.blueLine} />
-
-                <Text style={{ fontSize: 20, marginTop: 12, fontWeight: "bold", fontFamily: "Roboto" }}>
-                    Dear <Text>{proposal.clientName}</Text>,
-                </Text>
-
-
-                <Text
-                    style={{
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        marginTop: 10,
-                        lineHeight: 1.5,
-                        textAlign: "justify",
-                    }}
-                >
-                    Welcome to {company.name} a brighter, more sustainable future with our solar solutions. We believe that every customer deserves not
-                    just a product, but a complete experience that combines innovation, reliability, and long-term value. Our mission is
-                    to deliver energy systems that perform exceptionally well today and continue to do so for decades to come.
-                </Text>
-                <Text
-                    style={{
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        marginTop: 10,
-                        lineHeight: 1.5,
-                        textAlign: "justify",
-                    }}
-                >
-                    From your very first consultation to the final installation, we’ll walk you through each step of the process with clarity
-                    and transparency. Our expert design team ensures that your solar system is tailored to your unique requirements, whether you’re
-                    seeking maximum efficiency, aesthetic integration, or future scalability. Every decision we make is guided by our commitment to your
-                    satisfaction and peace of mind.
-                </Text>
-                <Text
-                    style={{
-                        fontFamily: 'Poppins',
-                        fontSize: 14,
-                        marginTop: 10,
-                        lineHeight: 1.5,
-                        textAlign: "justify",
-                    }}
-                >
-                    Together, let’s build a future that’s powered by clean, renewable energy. We are excited to partner with you on this journey
-                    and look forward to creating not just a solar project, but a long-term relationship built on trust, service, and shared vision.
-                </Text>
-
-                <View style={{ marginTop: 10 }}>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: "semibold", marginBottom: 2 }}>• High-efficiency panels with long term performance warranty.</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: "semibold", marginBottom: 2 }}>• Robust hot-dip galvanised elevated structure.</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 14, fontWeight: "semibold", marginBottom: 2 }}>• Turnkey installation with quality-tested BOS components.</Text>
-                </View>
-                <View style={{ marginTop: 20 }}>
-                    <Text style={{ fontFamily: 'Poppins', fontWeight: "bold", fontSize: 14, marginBottom: 4, lineHeight: 1 }}>Thanks & Regards,</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontWeight: "600", fontSize: 14, marginBottom: 4, lineHeight: 1 }}>{company.name.toUpperCase()}</Text>
-                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 4, lineHeight: 1 }}>
-                        <Image src={phonecall.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                        <Text style={{ fontFamily: 'Poppins', fontSize: 14 }}>+91 {company.contactNumber}</Text>
-                    </View>
-                    <View style={{ flexDirection: "row", alignItems: "center", marginTop: 2, lineHeight: 1 }}>
+                    <View style={styles.row}>
                         <Image src={communicate.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                        <Text style={{ fontFamily: 'Poppins', fontSize: 14 }}>{company.email}</Text>
+                        <Text style={{
+                            fontSize: 12,
+                            lineHeight: 1.2,
+                            textAlign: "justify",
+                        }}>{company.email}</Text>
                     </View>
                 </View>
-                <Image src={banner.src} />
-            </View>
-        </Page>
-        {/* PAGE 3: SPECIFICATIONS & GRAPH */}
-        <Page size="A4" style={styles.page}>
-            <Text style={styles.subHeader}>{proposal.projectsize} KW</Text>
-            <Text style={styles.subHeader2}>Specifications</Text>
-            <View style={styles.specRow}>
-                <View style={styles.specCol}>
-                    <Text style={styles.specTitle}>Plant Capacity</Text>
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 8 }}>{proposal.projectsize} KW</Text>
-                    <View style={styles.blueLine} />
-                </View>
-                <View style={styles.specCol}>
-                    <Text style={styles.specTitle}>Structure Type</Text>
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 8 }}>{proposal.proposalStructure}</Text>
-                    <View style={styles.blueLine} />
-                </View>
-                <View style={styles.specCol}>
-                    <Text style={styles.specTitle}>Inverter</Text>
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 8 }}>{proposal.invertortype || proposal.invertorSize}</Text>
-                    <View style={styles.blueLine} />
-                </View>
-            </View>
-            {/* Solar images and yearly consumption */}
-            <View style={{ marginTop: 20, flexDirection: "row", justifyContent: "space-between" }}>
-                <View style={{ flexDirection: "column", alignItems: "center" }}>
-                    <Image src={solarpowerplant.src} style={styles.logo} />
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, fontWeight: "semibold" }}>Yearly consumption:</Text>
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, textAlign: "left" }}>{proposal.consumption} kWh</Text>
-                </View>
-                <View style={{ flexDirection: "column", alignItems: "center" }}>
-                    <Image src={solargeneration.src} style={styles.logo} />
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, fontWeight: "semibold" }}>Yearly solar generation:</Text>
-                    <Text style={{ fontFamily: 'Work Sans', fontSize: 16, marginTop: 4, textAlign: "left" }}>{proposal.generation} kWh</Text>
-                </View>
-            </View>
-            {/* Graph */}
-            <View style={{ marginTop: 20, marginLeft: 28 }}>
-                <LineChart10Years
-                    consumption={parseFloat(proposal.consumption || "0")}
-                    generation={parseFloat(proposal.generation || "0")}
-                    width={490}
-                    height={300}
-                />
-            </View>
-            <Image style={{ marginTop: 20 }} src={graphpageimage.src} />
-        </Page>
-
-        <Page size="A4" style={styles.page}>
-            {/* Commercial Offer & Payment */}
-            <View style={styles.section}>
-                <Text style={styles.subHeader}>Commercial Offer</Text>
-                <Text style={{ fontSize: 16, marginBottom: 5, fontFamily: "Poppins" }}>
-                    Price Quote & Payment schedule for {proposal.projectsize} KW {proposal.invertortype} Rooftop Solar System:
-                </Text>
-                <View style={styles.table}>
-                    {/* Header */}
-                    <View style={[styles.tableRow, styles.tableHeader]}>
-                        <Text style={styles.tableColHeader}>Description</Text>
-                        <Text style={styles.tableColHeader}>Price / kW</Text>
-                        <Text style={styles.tableColHeader}>Quantity</Text>
-                        <Text style={styles.tableColHeader}>Subtotal</Text>
-                    </View>
-
-                    {/* Product Rows */}
-                    {proposal.rows.map((row: any, i: number) => (
-                        <View key={i} style={styles.tableRow}>
-                            <Text style={styles.tableCol}>{row.description || "Give Description"}</Text>
-                            <Text style={styles.tableColprice}>{row.price || ""}</Text>
-                            <Text style={styles.tableColquantity}>{row.quantitytable || ""}</Text>
-                            <View style={styles.tableColtotal}>
-                                <Text>
-                                    {(row.price && row.quantitytable)
-                                        ? (row.price * row.quantitytable).toLocaleString("en-IN")
-                                        : ""}
-                                </Text>
-                                {row.note?.trim() ? (
-                                    <Text style={{ fontSize: 8 }}>{row.note}</Text>
-                                ) : null}
-                            </View>
-                        </View>
-                    ))}
-
-
-                    {/* Subtotal */}
-                    <View style={styles.tableRow}>
-                        <Text style={styles.tableCol}>Subtotal</Text>
-                        <Text style={styles.tableColprice}></Text>
-                        <Text style={styles.tableColquantity}></Text>
-                        <Text style={styles.tableColtotal}>{proposal.subtotal}</Text>
-                    </View>
-
-                    {/* GST */}
-                    <View style={styles.tableRow}>
-                        <Text style={styles.tableCol}>GST %</Text>
-                        <Text style={styles.tableColprice}>{proposal.gst > 0 ? `${proposal.gst}%` : ""}</Text>
-                        <Text style={styles.tableColquantity}></Text>
-                        <Text style={styles.tableColtotal}>
-                            {proposal.gstAmount}
-                        </Text>
-                    </View>
-
-                    {/* Other Charges Rows */}
-                    {proposal.otherCharge?.map((charges: any, i: number) => (
-                        <View key={i} style={styles.tableRow}>
-                            <Text style={styles.tableCol}>{charges.description || "Give Description"}</Text>
-                            <Text style={styles.tableColprice}>{charges.price || ""}</Text>
-                            <Text style={styles.tableColquantity}>{charges.quantityother || ""}</Text>
-                            <View style={styles.tableColtotal}>
-                                {/* Subtotal */}
-                                <Text>
-                                    {(charges.price && charges.quantityother)
-                                        ? (charges.price * charges.quantityother).toLocaleString("en-IN")
-                                        : ""}
-                                </Text>
-                                {charges.note?.trim() ? (
-                                    <Text style={{ fontSize: 8, }}>
-                                        {charges.note}
-                                    </Text>
-                                ) : null}
-                            </View>
-
-                        </View>
-                    ))}
-                    {/* Total */}
-                    <View style={styles.totalRow}>
-                        <Text style={styles.totalText}>Total Cost</Text>
-                        <Text style={styles.totalText}></Text>
-                        <Text style={styles.totalText}></Text>
-                        <Text style={styles.totalText}>{proposal.total}</Text>
-                    </View>
-
-                    {/* Amount in Words */}
-                    <View
-                        style={{
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "flex-start",
-                            padding: 5,
-                            backgroundColor: "#003366",
-                            flexWrap: "wrap",
-                        }}
-                    >
-                        <Text style={[styles.amountWords, { flexShrink: 0 }]}>Amount in Words:</Text>
-                        <Text
-                            style={[
-                                styles.amountWords,
-                                {
-                                    flex: 1,
-                                    textAlign: "right",
-                                    flexWrap: "wrap",
-                                    maxWidth: "70%",
-                                },
-                            ]}
-                        >
-                            {numberToWords(proposal.total || 0)}
-                        </Text>
-                    </View>
-                </View>
-
-                {/* Payment Schedule */}
-                <View style={{ marginTop: 10 }}>
-                    <Text style={{ fontFamily: "Work Sans", fontWeight: "bold", marginBottom: 5, fontSize: 16 }}>
-                        Payment Schedule
-                    </Text>
-                    <Text style={styles.listItem}>• As a percentage of the Net Value of System.</Text>
-                    <Text style={styles.listItem}>• 30% advance along with Purchase Order.</Text>
-                    <Text style={styles.listItem}>• 65% Before the Dispatch of material.</Text >
-                    <Text style={styles.listItem}>• 5% after installation and commissioning.</Text>
-                </View>
-
-                {/* Payment Details */}
-                <View style={{ marginTop: 10 }}>
-                    <Text style={{ fontFamily: "Work Sans", fontWeight: "bold", marginBottom: 8, fontSize: 20 }}>
-                        Payment Details
-                    </Text>
-                    <Text style={{ fontFamily: "Poppins", fontSize: 16 }}>
-                        Payment can be paid via Cheque / scanner code / Netbanking
-                    </Text>
-                    <Text style={{ fontFamily: "Work Sans", fontSize: 16, fontWeight: "bold" }}>
-                        {proposal.holder}
-                    </Text>
-                    <Text style={{ fontFamily: "Work Sans", fontSize: 16 }}>
-                        <Text style={{ fontWeight: "bold" }}>Bank:</Text> {proposal.bankname}
-                    </Text>
-                    <Text style={{ fontFamily: "Work Sans", fontSize: 16 }}>
-                        <Text style={{ fontWeight: "bold" }}>A/C:</Text>— {proposal.accountnumber}
-                    </Text>
-                    <Text style={{ fontFamily: "Work Sans", fontSize: 16 }}>
-                        <Text style={{ fontWeight: "bold" }}>IFSC:</Text> {proposal.ifsc}
-                    </Text>
-                </View>
-
-                {/* Terms */}
-                <View style={{ marginTop: 15 }}>
-                    <Text style={{ fontFamily: "Poppins", fontSize: 16 }}>
-                        Terms: Prices are firm for 10 days from offer date. Delivery 2–3 weeks. Force major applies.
-                    </Text>
-                </View>
-            </View>
-        </Page>
-
-        {/* PAGE 5: BILL OF MATERIALS */}
-        <Page size="A4" style={styles.page}>
-            {/* Bill of Materials Header */}
-            <Text style={styles.subHeader}>Bill of Material</Text>
-
-            {/* Watt, Panels, Type */}
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Solar Panel</Text>
-                <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>
-                    Panel Brands:
-                </Text>
-            </View>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-                <View style={{ marginTop: 10 }}>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Watt Peak: {proposal.Wattpeak} Wp</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Panel NOS: {proposal.quantity}</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
-                        Panel type: {proposal.paneltype}
-                    </Text>
-                </View>
-                {/* <View style={{ backgroundColor: "#696969", width: 2, height: 85, marginLeft: 80 }} /> */}
-                <View>
-                    <View>
-                        {(proposal.panelBrands as string[] | []).map((brand, index) => (
-                            <Text key={index} style={{ fontFamily: 'Poppins', fontSize: 16 }}>
-                                {brand}
-                            </Text>
-                        ))}
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.blueLine} />
-
-            {/* Inverter & Phase */}
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Solar Inverter</Text>
-                <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>
-                    Inverter Brands:
-                </Text>
-            </View>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-
-                <View style={{ marginTop: 10 }}>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Inverter: {proposal.invertorSize}</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Phase: {proposal.invertorPhase}</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>NOS: {proposal.invertorquantitiy}</Text>
-                </View>
-                {/* <View style={{ backgroundColor: "#696969", width: 2, height: 85, marginLeft: 100 }} /> */}
-                <View>
-                    <View>
-                        {(proposal.invertorBrands as string[] | []).map((brand, index) => (
-                            <Text key={index} style={{ fontFamily: 'Poppins', fontSize: 16 }}>
-                                {brand}
-                            </Text>
-                        ))}
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.blueLine} />
-
-            {/* Cable & Warranty Section */}
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-                {/* Cable */}
-                <View style={{ flexDirection: "row" }}>
-                    <View>
-                        <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Cable</Text>
-                        <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Cable brand: {proposal.cableBrands}</Text>
-                        {proposal.invertortype?.toLowerCase() !== "on grid" && (
-                            <>
-                                <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Battery</Text>
-                                <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
-                                    Battery Brand: {proposal.batteryBrands ? proposal.batteryBrands : 'NA'}
-                                </Text>
-
-                                <View>
-                                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
-                                        Battery Type: {proposal.batterytype}
-                                    </Text>
-
-                                    {typeof proposal.batterytype === "string" &&
-                                        proposal.batterytype.toLowerCase() === "lead-acid" &&
-                                        proposal.leadAcidSubtype && (
-                                            <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>
-                                                Battery Capacity: {proposal.leadAcidSubtype}
-                                            </Text>
-                                        )}
-                                </View>
-                                <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Battery Warranty: {proposal.batterywarranty} year(s)</Text>
-                                <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Battery NOS: {proposal.batteryquantity}</Text>
-                            </>
-                        )}
-
-                    </View>
-                    {/* <View style={{ backgroundColor: "#696969", width: 2, height: 85, marginLeft: 100 }} /> */}
-                </View>
-
-                {/* Warranty */}
-                <View>
-                    <Text style={{ fontFamily: 'Poppins', color: "#1d4ed8", fontSize: 16, fontWeight: "bold" }}>Warranty</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Panel Performance: {proposal.performancewarranty} Year(s)</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Panel Product Warranty: {proposal.warranty} Year(s)</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Inverter: {proposal.Invertorwarranty} Year(s)</Text>
-                    <Text style={{ fontFamily: 'Poppins', fontSize: 16 }}>Balance of System: {proposal.systemwarranty} Year(s)</Text>
-                </View>
-            </View>
-            <Image src={Bill.src} />
-        </Page>
-
-        <Page size="A4" style={styles.page2}>
-            <View style={{ marginBottom: 2 }}>
-                <Text style={{ fontFamily: 'Work Sans', fontSize: 16, fontWeight: "bold", marginBottom: 4 }}>Terms & Condition</Text>
-                <Text style={{
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                    marginTop: 10,
-                    lineHeight: 1.2,
-                    textAlign: "justify",
-                }} >{proposal.termandcondition}</Text>
-            </View>
-            <View style={{ marginBottom: 2 }}>
-                <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "bold", color: "#2563eb" }}>Balance Of System</Text>
-                <Text style={{
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                    marginTop: 10,
-                    lineHeight: 1.2,
-                    textAlign: "justify"
-                }}>{proposal.balanceOfSystem}</Text>
-            </View>
-            <View style={{ marginBottom: 2 }}>
-                <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "bold", color: "#2563eb" }}>Coustomer Scope:</Text>
-                <Text style={{
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                    marginTop: 10,
-                    lineHeight: 1.2,
-                    textAlign: "justify"
-                }}>{proposal.customerScope}</Text>
-            </View>
-
-            <View>
-                <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "bold", color: "#2563eb" }}>Our Scope:</Text>
-                <Text style={{
-                    fontFamily: 'Poppins',
-                    fontSize: 12,
-                    marginTop: 10,
-                    lineHeight: 1.2,
-                    textAlign: "justify"
-                }}>{proposal.ourScope}</Text>
-            </View>
-            <View style={{ marginTop: 2, }}>
-                <Text style={{ fontFamily: 'Work Sans', fontSize: 12, fontWeight: "Bold" }}>{company.name.toUpperCase()}</Text>
-                <View style={styles.row}>
-                    <Image src={phonecall.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                    <Text style={{
-                        fontSize: 12,
-                        lineHeight: 1.2,
-                        textAlign: "justify",
-                    }}>+91 {company.contactNumber}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Image src={worldwide.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                    <Text style={{
-                        fontSize: 12,
-                        lineHeight: 1.2,
-                        textAlign: "justify",
-                    }}>{company.website}</Text>
-                </View>
-                <View style={styles.row}>
-                    <Image src={communicate.src} style={{ width: 12, height: 12, marginRight: 4 }} />
-                    <Text style={{
-                        fontSize: 12,
-                        lineHeight: 1.2,
-                        textAlign: "justify",
-                    }}>{company.email}</Text>
-                </View>
-            </View>
-        </Page>
-    </Document>
-);
+            </Page>
+        </Document>
+    )};
