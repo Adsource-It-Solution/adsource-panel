@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { CertificatePDF } from "../pdf/Certificatepdf/page";
+import CertificatePDF from "../pdf/Certificatepdf/page"
 import PDFDownloadWrapper from "@/app/components/PDFDownloadWrapper";
 import { ClientOnly } from "@/app/components/ClientOnly";
 import medal from "@/app/assets/medal.png";
@@ -14,6 +14,8 @@ import defaultSign from "@/app/assets/signature.jpg";
 import { Button } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { useRouter } from "next/navigation";
+
+
 
 export const dynamic = "force-dynamic";
 

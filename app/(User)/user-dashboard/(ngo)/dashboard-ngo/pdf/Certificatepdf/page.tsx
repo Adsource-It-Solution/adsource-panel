@@ -161,13 +161,14 @@ const styles = StyleSheet.create({
   },
 });
 
-export const CertificatePDF = ({
+export default function CertificatePDF({
   cretificate,
   company,
   medal,
   corner,
-  bottomimage
-}: CertificatePDFProps) => (
+  bottomimage,
+}: CertificatePDFProps) {
+  return (
   <Document>
     <Page size="A4" orientation="landscape" style={styles.page}>
       <View style={styles.border}>
@@ -218,4 +219,4 @@ export const CertificatePDF = ({
       </View>
     </Page>
   </Document>
-);
+)};
