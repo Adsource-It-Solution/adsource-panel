@@ -54,7 +54,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import UploadIcon from "@mui/icons-material/Upload";
 import ClearIcon from '@mui/icons-material/Clear';
 import CloseIcon from "@mui/icons-material/Close";
-import { SolarProposalPDF } from "../../dashboard-solar/pdf/page";
+import { SolarProposalPDF } from "../../pdf/page";
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
@@ -685,7 +685,17 @@ export default function ProposalPage() {
 
     try {
       setLoadingPdf(true);
-      const blob = await pdf(<SolarProposalPDF proposal={proposal} />).toBlob();
+      const blob = await pdf(
+        <SolarProposalPDF
+          proposal={proposal}
+          company={{
+            name: proposal.holder || "",
+            address: proposal.clientAddress || "",
+            contactNumber: proposal.clientPhone || "",
+            email: proposal.clientEmail || "",
+          }}
+        />
+      ).toBlob();
       saveAs(blob, `proposal_${editingId}.pdf`);
     } catch (err) {
       console.error(err);
@@ -697,7 +707,17 @@ export default function ProposalPage() {
   const handlePreviewPdf = async () => {
     try {
       setLoadingPdf(true);
-      const blob = await pdf(<SolarProposalPDF proposal={proposal} />).toBlob();
+      const blob = await pdf(
+        <SolarProposalPDF
+          proposal={proposal}
+          company={{
+            name: proposal.holder || "",
+            address: proposal.clientAddress || "",
+            contactNumber: proposal.clientPhone || "",
+            email: proposal.clientEmail || "",
+          }}
+        />
+      ).toBlob();
       const url = URL.createObjectURL(blob);
       setPreviewUrl(url);
     } catch (err) {
