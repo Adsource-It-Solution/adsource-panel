@@ -10,7 +10,6 @@ import { ClientOnly } from "@/app/components/ClientOnly";
 import medal from "@/app/assets/medal.png";
 import corner from "@/app/assets/corner.png";
 import bottomimage from "@/app/assets/bottomimage.png";
-import logo from "@/app/assets/logo-pdf.png";
 import defaultSign from "@/app/assets/signature.jpg";
 import { Button } from "@mui/material";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
