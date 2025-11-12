@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
 });
 
 interface IDCardPDFProps {
-  IdCard: {
+  IdCard?: {
     name?: string;
     phone?: string;
     email?: string;
@@ -128,10 +128,10 @@ interface IDCardPDFProps {
     idNumber?: string;
     imageUrl?: string;
     companyLogo?: string;
-  },
-  company: {
-    name: string;
-    address: string;
+  };
+  company?: {
+    name?: string;
+    address?: string;
     registrationNumber?: string;
     panNumber?: string;
     gstNumber?: string;
@@ -142,15 +142,14 @@ interface IDCardPDFProps {
   };
 }
 
-// 🪪 ID Card Component (single-page compact)
-export default function IDCardPDF({
-  IdCard,
-  company
-}: IDCardPDFProps){
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "";
+export default function IDCardPDF({ IdCard = {}, company = {} }: IDCardPDFProps) {
+  const safeGet = (value?: string, fallback: string = "—") =>
+    value && value.trim() !== "" ? value : fallback;
+
+  const formatDate = (dateString?: string) => {
+    if (!dateString) return "—";
     const date = new Date(dateString);
-    if (isNaN(date.getTime())) return dateString;
+    if (isNaN(date.getTime())) return safeGet(dateString);
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
@@ -162,7 +161,7 @@ export default function IDCardPDF({
       <Page size={{ width: 350, height: 220 }} style={styles.page}>
         <View style={styles.card}>
           {/* 🌄 Topbar */}
-          <Image src={topbar.src} style={styles.topImage} />
+          {topbar?.src && <Image src={topbar.src} style={styles.topImage} />}
 
           {/* 🔹 Main Content */}
           <View style={styles.content}>
@@ -170,15 +169,19 @@ export default function IDCardPDF({
             <View style={styles.leftSection}>
               {/* ✅ Company Logo (Fallback to defaultLogo) */}
               <View>
-                {company.logo && <Image style={styles.logo} src={company.logo} />}
+                <Image
+                  style={styles.logo}
+                  src={safeGet(company.logo || defaultLogo.src, defaultLogo.src)}
+                />
               </View>
 
+              {/* ✅ Safely render labels */}
               {[
-                { label: "NAME", value: IdCard.name },
-                { label: "PHONE", value: IdCard.phone },
-                { label: "EMAIL", value: IdCard.email },
-                { label: "D.O.B", value: formatDate(IdCard.DOB || "") },
-                { label: "ADDRESS", value: IdCard.address },
+                { label: "NAME", value: safeGet(IdCard.name) },
+                { label: "PHONE", value: safeGet(IdCard.phone) },
+                { label: "EMAIL", value: safeGet(IdCard.email) },
+                { label: "D.O.B", value: formatDate(IdCard.DOB) },
+                { label: "ADDRESS", value: safeGet(IdCard.address) },
               ].map((item) => (
                 <View key={item.label} style={styles.labelRow}>
                   <Text style={styles.label}>{item.label}</Text>
@@ -187,20 +190,27 @@ export default function IDCardPDF({
                 </View>
               ))}
 
-              <Text style={styles.roleText}>{IdCard.role}</Text>
+              <Text style={styles.roleText}>{safeGet(IdCard.role)}</Text>
             </View>
 
             {/* Right Section */}
             <View style={styles.rightSection}>
               <View style={styles.imageBox}>
-                <Image src={IdCard.imageUrl} style={styles.image} />
+                <Image
+                  src={
+                    IdCard.imageUrl
+                      ? IdCard.imageUrl
+                      : "https://via.placeholder.com/70x90.png?text=No+Image"
+                  }
+                  style={styles.image}
+                />
               </View>
             </View>
           </View>
 
           {/* ID Number */}
           <View style={styles.idContainer}>
-            <Text style={styles.idText}>{IdCard.idNumber}</Text>
+            <Text style={styles.idText}>{safeGet(IdCard.idNumber)}</Text>
           </View>
 
           {/* Bottom Bars */}
@@ -210,4 +220,4 @@ export default function IDCardPDF({
       </Page>
     </Document>
   );
-};
+}

@@ -11,20 +11,20 @@ import {
 import defaultSign from "@/app/assets/signature.jpg";
 
 interface CertificatePDFProps {
-  cretificate: {
-    name: string;
-    title: string;
-    description: string;
-    leaderName: string;
-    advisorName: string;
-    leaderTitle: string;
-    advisorTitle: string;
+  cretificate?: {
+    name?: string;
+    title?: string;
+    description?: string;
+    leaderName?: string;
+    advisorName?: string;
+    leaderTitle?: string;
+    advisorTitle?: string;
     headSign?: string;
     advisorSign?: string;
-  },
-  company: {
-    name: string;
-    address: string;
+  };
+  company?: {
+    name?: string;
+    address?: string;
     registrationNumber?: string;
     panNumber?: string;
     gstNumber?: string;
@@ -33,9 +33,9 @@ interface CertificatePDFProps {
     contactNumber?: string;
     website?: string;
   };
-  medal: string;
-  corner: string;
-  bottomimage: string;
+  medal?: string;
+  corner?: string;
+  bottomimage?: string;
 }
 
 const styles = StyleSheet.create({
@@ -144,79 +144,86 @@ const styles = StyleSheet.create({
     fontSize: 8,
     color: "#777",
   },
-  customFooter: {
-    position: "absolute",
-    bottom: 10,
-    left: 0,
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    gap: 10,
-  },
-  footerLogo: {
-    width: 40,
-    height: 40,
-    objectFit: "contain",
-  },
 });
 
 export default function CertificatePDF({
-  cretificate,
-  company,
-  medal,
-  corner,
-  bottomimage,
+  cretificate = {},
+  company = {},
+  medal = "",
+  corner = "",
+  bottomimage = "",
 }: CertificatePDFProps) {
   return (
-  <Document>
-    <Page size="A4" orientation="landscape" style={styles.page}>
-      <View style={styles.border}>
-        {/* Corners & Decorations */}
-        <Image src={corner} style={styles.cornerTL} />
-        <Image src={corner} style={styles.cornerTR} />
-        <Image src={bottomimage} style={styles.bottomImage} />
+    <Document>
+      <Page size="A4" orientation="landscape" style={styles.page}>
+        <View style={styles.border}>
+          {/* Decorative corners */}
+          {corner ? (
+            <>
+              <Image src={corner} style={styles.cornerTL} />
+              <Image src={corner} style={styles.cornerTR} />
+            </>
+          ) : null}
 
-        {/* ✅ Dynamic Company Logo */}
-        <View>
-          {company.logo && <Image style={styles.logo} src={company.logo} />}
-        </View>
+          {/* Bottom Decoration */}
+          {bottomimage && <Image src={bottomimage} style={styles.bottomImage} />}
 
-        <Text style={styles.title}>{cretificate.title}</Text>
+          {/* Company Logo */}
+          {company.logo ? <Image style={styles.logo} src={company.logo} /> : null}
 
-        {/* Medal */}
-        <View style={styles.medalContainer}>
-          <Image src={medal} style={styles.medal} />
-        </View>
+          {/* Title */}
+          <Text style={styles.title}>
+            {cretificate.title || "Certificate of Achievement"}
+          </Text>
 
-        {/* Recipient */}
-        <Text style={styles.presented}>Presented to</Text>
-        <Text style={styles.name}>{cretificate.name}</Text>
-        <Text style={styles.description}>{cretificate.description}</Text>
+          {/* Medal */}
+          {medal ? (
+            <View style={styles.medalContainer}>
+              <Image src={medal} style={styles.medal} />
+            </View>
+          ) : null}
 
-        {/* Signatures */}
-        <View style={styles.footer}>
-          {/* Leader */}
-          <View style={styles.signatureBlock}>
-            <Image
-              src={cretificate.headSign || defaultSign.src}
-              style={styles.signatureImage}
-            />
-            <Text style={styles.signatureName}>{cretificate.leaderName}</Text>
-            <Text style={styles.signatureTitle}>{cretificate.leaderTitle}</Text>
+          {/* Recipient */}
+          <Text style={styles.presented}>Presented to</Text>
+          <Text style={styles.name}>
+            {cretificate.name || "Recipient Name"}
+          </Text>
+          {cretificate.description && (
+            <Text style={styles.description}>{cretificate.description}</Text>
+          )}
+
+          {/* Signatures */}
+          <View style={styles.footer}>
+            {/* Leader */}
+            <View style={styles.signatureBlock}>
+              <Image
+                src={cretificate.headSign || defaultSign.src}
+                style={styles.signatureImage}
+              />
+              <Text style={styles.signatureName}>
+                {cretificate.leaderName || "Leader Name"}
+              </Text>
+              <Text style={styles.signatureTitle}>
+                {cretificate.leaderTitle || "Leader Title"}
+              </Text>
+            </View>
+
+            {/* Advisor */}
+            <View style={styles.signatureBlock}>
+              <Image
+                src={cretificate.advisorSign || defaultSign.src}
+                style={styles.signatureImage}
+              />
+              <Text style={styles.signatureName}>
+                {cretificate.advisorName || "Advisor Name"}
+              </Text>
+              <Text style={styles.signatureTitle}>
+                {cretificate.advisorTitle || "Advisor Title"}
+              </Text>
+            </View>
           </View>
-
-          {/* Advisor */}
-          <View style={styles.signatureBlock}>
-            <Image
-              src={cretificate.advisorSign || defaultSign.src}
-              style={styles.signatureImage}
-            />
-            <Text style={styles.signatureName}>{cretificate.advisorName}</Text>
-            <Text style={styles.signatureTitle}>{cretificate.advisorTitle}</Text>
-          </View>
         </View>
-      </View>
-    </Page>
-  </Document>
-)};
+      </Page>
+    </Document>
+  );
+}

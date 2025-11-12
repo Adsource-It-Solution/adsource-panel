@@ -81,22 +81,22 @@ const styles = StyleSheet.create({
 });
 
 export interface ReceiptDocumentPdfProps {
-  transaction: {
-    receiptNo: string;
-    date: string;
-    name: string;
-    totalAmount: string;
-    mobile: string;
-    contact: string;
-    pan: string;
-    address: string;
-    paymentMethod: string;
-    transactionID: string;
-    sign: string;
+  transaction?: {
+    receiptNo?: string;
+    date?: string;
+    name?: string;
+    totalAmount?: string;
+    mobile?: string;
+    contact?: string;
+    pan?: string;
+    address?: string;
+    paymentMethod?: string;
+    transactionID?: string;
+    sign?: string;
   };
-  company: {
-    name: string;
-    address: string;
+  company?: {
+    name?: string;
+    address?: string;
     registrationNumber?: string;
     panNumber?: string;
     gstNumber?: string;
@@ -106,119 +106,148 @@ export interface ReceiptDocumentPdfProps {
     website?: string;
   };
 }
+
 export default function ReceiptDocument({
-  transaction,
-  company,
-}: ReceiptDocumentPdfProps){
-  return(
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.borderBox}>
-        {/* 🏢 Header */}
-        <View style={styles.header}>
-          <View style={styles.headerLeft}>
-            <View style={styles.header}>
-              {/* 🖼️ Show logo if available */}
-              {company.logo ? (
+  transaction = {},
+  company = {},
+}: ReceiptDocumentPdfProps) {
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.borderBox}>
+          {/* 🏢 Header */}
+          <View style={styles.header}>
+            <View style={styles.headerLeft}>
+              {/* 🖼️ Company Logo or Name */}
+              {company?.logo ? (
                 <Image src={company.logo} style={styles.logo} />
               ) : (
-                <Text style={styles.headerTitle}>{company.name || "Your Company"}</Text>
+                <Text style={styles.headerTitle}>
+                  {company?.name || "Your Company"}
+                </Text>
+              )}
+              {company?.registrationNumber && (
+                <Text style={styles.headerSubText}>
+                  Reg. No: {company.registrationNumber}
+                </Text>
+              )}
+              {company?.gstNumber && (
+                <Text style={styles.headerSubText}>
+                  GST: {company.gstNumber}
+                </Text>
+              )}
+              {company?.panNumber && (
+                <Text style={styles.headerSubText}>
+                  PAN: {company.panNumber}
+                </Text>
               )}
             </View>
-            {company.registrationNumber && (
-              <Text style={styles.headerSubText}>
-                Reg. No: {company.registrationNumber}
-              </Text>
-            )}
-            {company.gstNumber && (
-              <Text style={styles.headerSubText}>
-                GST: {company.gstNumber}
-              </Text>
-            )}
-            {company.panNumber && (
-              <Text style={styles.headerSubText}>PAN: {company.panNumber}</Text>
-            )}
-          </View>
-          <View style={styles.headerRight}>
-            {company.logo && <Image style={styles.logo} src={company.logo} />}
-          </View>
-        </View>
 
-        <Text style={styles.sectionTitle}>Donation Receipt</Text>
+            <View style={styles.headerRight}>
+              {company?.logo && (
+                <Image style={styles.logo} src={company.logo} />
+              )}
+            </View>
+          </View>
 
-        {/* 💵 Transaction Info */}
-        <View style={styles.table}>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Receipt No:</Text>
-            <Text style={styles.cellValue}>{transaction.receiptNo}</Text>
+          <Text style={styles.sectionTitle}>Donation Receipt</Text>
+
+          {/* 💵 Transaction Info */}
+          <View style={styles.table}>
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Receipt No:</Text>
+              <Text style={styles.cellValue}>
+                {transaction?.receiptNo || "-"}
+              </Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Date:</Text>
+              <Text style={styles.cellValue}>{transaction?.date || "-"}</Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Donor Name:</Text>
+              <Text style={styles.cellValue}>{transaction?.name || "-"}</Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Amount:</Text>
+              <Text style={styles.cellValue}>
+                ₹{transaction?.totalAmount || "0"} /-
+              </Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Mobile:</Text>
+              <Text style={styles.cellValue}>{transaction?.mobile || "-"}</Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Email:</Text>
+              <Text style={styles.cellValue}>{transaction?.contact || "-"}</Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>PAN:</Text>
+              <Text style={styles.cellValue}>{transaction?.pan || "-"}</Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Address:</Text>
+              <Text style={styles.cellValue}>
+                {transaction?.address || "-"}
+              </Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Payment Mode:</Text>
+              <Text style={styles.cellValue}>
+                {transaction?.paymentMethod || "-"}
+              </Text>
+            </View>
+
+            <View style={styles.row}>
+              <Text style={styles.cellLabel}>Transaction ID:</Text>
+              <Text style={styles.cellValue}>
+                {transaction?.transactionID || "-"}
+              </Text>
+            </View>
           </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Date:</Text>
-            <Text style={styles.cellValue}>{transaction.date}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Donor Name:</Text>
-            <Text style={styles.cellValue}>{transaction.name}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Amount:</Text>
-            <Text style={styles.cellValue}>
-              ₹{transaction.totalAmount} /-
+
+          {/* 📝 Note */}
+          <Text style={styles.noteText}>
+            Thank you for contributing to{" "}
+            <Text style={{ fontWeight: "bold" }}>
+              {company?.name || "our organization"}
             </Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Mobile:</Text>
-            <Text style={styles.cellValue}>{transaction.mobile}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Email:</Text>
-            <Text style={styles.cellValue}>{transaction.contact}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>PAN:</Text>
-            <Text style={styles.cellValue}>{transaction.pan}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Address:</Text>
-            <Text style={styles.cellValue}>{transaction.address}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Payment Mode:</Text>
-            <Text style={styles.cellValue}>{transaction.paymentMethod}</Text>
-          </View>
-          <View style={styles.row}>
-            <Text style={styles.cellLabel}>Transaction ID:</Text>
-            <Text style={styles.cellValue}>{transaction.transactionID}</Text>
-          </View>
-        </View>
-
-        {/* 📝 Note */}
-        <Text style={styles.noteText}>
-          Thank you for contributing to <Text style={{ fontWeight: "bold" }}>{company.name}</Text>.
-          Your donation helps support our ongoing mission. Please keep this
-          receipt as acknowledgment of your contribution.
-        </Text>
-
-        {/* ✍ Signature */}
-        <View style={styles.signBox}>
-         <Image style={styles.sign} src={transaction.sign} />
-          <Text style={styles.signText}>Authorized Signatory</Text>
-        </View>
-
-        {/* 📞 Footer */}
-        <View style={styles.footer}>
-          <Text style={{ fontSize: 14, fontWeight: "bold", color: "#00695c" }}>
-            Contact Us
+            . Your donation helps support our ongoing mission. Please keep this
+            receipt as acknowledgment of your contribution.
           </Text>
-          {company.contactNumber && (
-            <Text>Phone: {company.contactNumber}</Text>
+
+          {/* ✍ Signature */}
+          {transaction?.sign && (
+            <View style={styles.signBox}>
+              <Image style={styles.sign} src={transaction.sign} />
+              <Text style={styles.signText}>Authorized Signatory</Text>
+            </View>
           )}
-          {company.website && <Text>Website: {company.website}</Text>}
-          {company.email && <Text>Email: {company.email}</Text>}
-          {company.address && <Text>Address: {company.address}</Text>}
-          <Image src={company.logo} style={styles.footerLogo} />
+
+          {/* 📞 Footer */}
+          <View style={styles.footer}>
+            <Text style={{ fontSize: 14, fontWeight: "bold", color: "#00695c" }}>
+              Contact Us
+            </Text>
+            {company?.contactNumber && (
+              <Text>Phone: {company.contactNumber}</Text>
+            )}
+            {company?.website && <Text>Website: {company.website}</Text>}
+            {company?.email && <Text>Email: {company.email}</Text>}
+            {company?.address && <Text>Address: {company.address}</Text>}
+            {company?.logo && <Image src={company.logo} style={styles.footerLogo} />}
+          </View>
         </View>
-      </View>
-    </Page>
-  </Document>
-)};
+      </Page>
+    </Document>
+  );
+}
