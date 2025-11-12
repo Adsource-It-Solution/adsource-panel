@@ -58,7 +58,7 @@ import SolarProposalPDF from "../../pdf/page"
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { fetchBrandsByCategory } from "@/lib/brand";
+import { fetchBrandsByCategory } from "@/utils/brand";
 
 interface Service {
   _id: string;

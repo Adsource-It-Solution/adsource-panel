@@ -2,14 +2,17 @@ import { NextResponse } from "next/server";
 import dbConnect from "@/app/lib/db";
 import Brand from "@/app/models/brand";
 
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+export async function DELETE(req: Request, context: { params: Promise<{ id: string }> }) {
   try {
     await dbConnect();
-    const { id } = params;
 
-    const deleted = await Brand.findByIdAndDelete(id);
-    if (!deleted)
+    // ✅ Unwrap params first
+    const { id } = await context.params;
+
+    const deletedBrand = await Brand.findByIdAndDelete(id);
+    if (!deletedBrand) {
       return NextResponse.json({ error: "Brand not found" }, { status: 404 });
+    }
 
     return NextResponse.json({ message: "Brand deleted successfully" });
   } catch (err: any) {

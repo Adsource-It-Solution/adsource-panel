@@ -59,7 +59,7 @@ import SolarProposalPDF from "../pdf/page";
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
-import { fetchBrandsByCategory } from "@/lib/brand";
+import { fetchBrandsByCategory } from "@/utils/brand";
 
 interface Service {
   _id: string;
@@ -775,7 +775,7 @@ export default function ProposalPage() {
       } else {
         // UPDATE
         const res = await axios.put(
-          `api/solar/proposal/${editingId}`,
+          `/api/solar/proposal/${editingId}`,
           currentProposal
         );
         savedProposal = res.data.proposal || { ...currentProposal, _id: editingId };
@@ -846,7 +846,7 @@ export default function ProposalPage() {
     if (!newPanelBrand.trim()) return;
 
     try {
-      const res = await axios.post(`api/solar/brands/category/panel`, {
+      const res = await axios.post(`/api/solar/brands/category/panel`, {
         name: newPanelBrand,
         logo: newPanelLogo,
         category: "panel",
@@ -885,7 +885,7 @@ export default function ProposalPage() {
     if (!newBrand.trim()) return;
 
     try {
-      const res = await axios.post(`api/solar/brands/category/inverter`, {
+      const res = await axios.post(`/api/solar/brands/category/inverter`, {
         name: newBrand,
         logo: newLogo,
         category: "inverter",
@@ -929,7 +929,7 @@ export default function ProposalPage() {
     if (!newBrand.trim()) return;
 
     try {
-      const res = await axios.post(`api/solar/brands/category/battery`, {
+      const res = await axios.post(`/api/solar/brands/category/battery`, {
         name: newBrand,
         logo: newBatteryLogo,
         category: "battery",
@@ -967,7 +967,7 @@ export default function ProposalPage() {
     if (!newCableBrand.trim()) return;
 
     try {
-      const res = await axios.post(`api/solar/brands/category/cable `, {
+      const res = await axios.post(`/api/solar/brands/category/cable `, {
         name: newCableBrand,
         logo: newCableLogo,
         category: "cable",
@@ -1223,7 +1223,7 @@ export default function ProposalPage() {
                                     e.stopPropagation();
                                     if (window.confirm(`Delete brand "${b.name}"?`)) {
                                       await axios.delete(
-                                        `api/solar/brands/${b._id}`
+                                        `/api/solar/brands/id/${b._id}`
                                       );
                                       setPanelBrands((prev) =>
                                         prev.filter((item) => item._id !== b._id)
@@ -1725,7 +1725,7 @@ export default function ProposalPage() {
                                 onClick={async (e) => {
                                   e.stopPropagation();
                                   if (window.confirm(`Delete brand "${b.name}"?`)) {
-                                    await axios.delete(`api/solar/brands/${b._id}`);
+                                    await axios.delete(`/api/solar/brands/id/${b._id}`);
                                     setBatteryBrands((prev) => prev.filter((item) => item._id !== b._id));
                                     if (proposal.batteryBrands?.[0] === b.name) {
                                       setProposal((prev) => ({ ...prev, batteryBrands: "" }));
@@ -1969,7 +1969,7 @@ export default function ProposalPage() {
                                 onClick={async (e) => {
                                   e.stopPropagation();
                                   if (window.confirm(`Delete brand "${b.name}"?`)) {
-                                    await axios.delete(`api/solar/brands/${b._id}`);
+                                    await axios.delete(`/api/solar/brands/id/${b._id}`);
                                     setCableBrands((prev) => prev.filter((item) => item._id !== b._id));
                                     if (proposal.cableBrands?.[0] === b.name) {
                                       setProposal((prev) => ({ ...prev, cableBrands: "" }));
