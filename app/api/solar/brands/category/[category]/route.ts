@@ -41,12 +41,13 @@ export async function POST(req: NextRequest) {
 // ====================== GET ======================
 export async function GET(
   req: NextRequest,
-  { params }: { params: { category: string } }
+  context: { params: Promise<{ category: string }> }
 ) {
   try {
     await dbConnect();
 
-    const { category } = params;
+    // ✅ unwrap params promise first
+    const { category } = await context.params;
     console.log("Fetching brands for category:", category);
 
     const brands = await Brand.find({ category });
