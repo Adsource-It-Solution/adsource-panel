@@ -12,7 +12,8 @@ import {
   Card,
   useMediaQuery,
   Stack,
-  IconButton
+  IconButton,
+  Paper
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import { Facebook, Twitter, Instagram, LinkedIn } from "@mui/icons-material";
@@ -377,6 +378,33 @@ export default function Home() {
           )}
         </Card>
       </Container>
+
+      <Paper
+        sx={{
+          mt: 6,
+          background: "linear-gradient(to right, #0f172a, #1e293b)",
+          color: "white",
+          borderRadius: 3,
+          p: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: 2,
+        }}
+      >
+        <Box>
+          <Typography variant="h6" fontWeight="bold" mb={1}>
+            Need help getting started?
+          </Typography>
+          <Typography variant="body2" sx={{ color: "#cbd5e1" }}>
+            Check out our documentation and guides to make the most of your admin panel.
+          </Typography>
+        </Box>
+        <Link href="/dashboard-section/documentation"
+        className="bg-[#e6e6e6] text-[#23252a] text-xl font-semibold hover:bg-white px-4 py-2 rounded-lg">
+          View Documentation</Link>
+      </Paper>
 
       {/* ✅ FOOTER */}
       <Box sx={{ bgcolor: "#0f0f25", color: "#fff", pt: 8 }}>
