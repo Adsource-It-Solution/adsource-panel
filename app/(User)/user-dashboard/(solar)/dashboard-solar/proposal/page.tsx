@@ -55,7 +55,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import UploadIcon from "@mui/icons-material/Upload";
 import ClearIcon from '@mui/icons-material/Clear';
 import CloseIcon from "@mui/icons-material/Close";
-import { SolarProposalPDF } from "../pdf/page";
+import SolarProposalPDF from "../pdf/page";
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";

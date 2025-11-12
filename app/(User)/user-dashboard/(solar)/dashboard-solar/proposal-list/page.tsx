@@ -20,7 +20,7 @@ import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 
 import type { Proposal } from "../proposal/page";
-import { SolarProposalPDF } from "../pdf/page";
+import  SolarProposalPDF  from "../pdf/page";
 import { useRouter } from "next/navigation";
 
 function ProposalList() {
@@ -31,6 +31,17 @@ function ProposalList() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [newTitle, setNewTitle] = useState("");
   const [, setAllowed] = useState<boolean | null>(null);
+  const [company, setCompany] = useState({
+    logo: "",
+    name: "",
+    address: "",
+    registrationNumber: "",
+    panNumber: "",
+    gstNumber: "",
+    email: "",
+    contactNumber: "",
+    website: "",
+  });
 
   useEffect(() => {
     async function verifyAccess() {
@@ -85,6 +96,29 @@ function ProposalList() {
     fetchProposals();
   }, []);
 
+  useEffect(() => {
+    async function fetchCompany() {
+      try {
+        const userRes = await fetch("/api/auth/me");
+        if (!userRes.ok) return;
+        const userData = await userRes.json();
+        const userid = userData?.id;
+        if (!userid) return;
+
+        const companyRes = await fetch(`/api/User/updateCompany/${userid}`, {
+          method: "GET",
+          cache: "no-store",
+        });
+        if (!companyRes.ok) return;
+        const data = await companyRes.json();
+        if (data.company) setCompany(data.company);
+      } catch (err) {
+        console.error("Failed to fetch company:", err);
+      }
+    }
+    fetchCompany();
+  }, []);
+
   // -------------------
   // Soft delete: move to recycle bin
   // -------------------
@@ -124,7 +158,7 @@ function ProposalList() {
   const handleDownloadPdf = async (proposal: Proposal) => {
     try {
       setLoadingPdf(proposal._id || null);
-      const blob = await pdf(<SolarProposalPDF proposal={proposal} />).toBlob();
+      const blob = await pdf(<SolarProposalPDF proposal={proposal} company={company} />).toBlob();
       saveAs(blob, `proposal_${proposal._id}.pdf`);
       toast.success("✅ PDF generated successfully!");
     } catch (err) {

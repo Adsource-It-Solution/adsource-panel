@@ -106,18 +106,6 @@ export interface ReceiptDocumentPdfProps {
     website?: string;
   };
 }
-
-/**
- * 🧾 Dynamic PDF Generator
- * Company info from profile + transaction info from receipt
- */
-
-
-// export default function ReceiptDocument: React.FC<ReceiptDocumentPdfProps> ({
-//   transaction,
-//   company,
-// })
-//   return(
 export default function ReceiptDocument({
   transaction,
   company,

@@ -24,7 +24,7 @@ import {
 } from "@mui/icons-material";
 import { FaRupeeSign } from "react-icons/fa";
 import { ClientOnly } from "@/app/components/ClientOnly";
-import { ReceiptDocument } from "../pdf/receiptpdf/page";
+import ReceiptDocument from "../pdf/receiptpdf/page";
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import { useRouter } from "next/navigation";

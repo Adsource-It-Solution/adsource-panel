@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import Topbar from "@/app/assets/Untitled.png";
 import JsBarcode from "jsbarcode";
-import { IDCardPDF } from "../pdf/idpdf/page";
+import IDCardPDF from "../pdf/idpdf/page";
 import { ClientOnly } from "@/app/components/ClientOnly";
 import dummyimage from "@/app/assets/user.jpg"
 import { useRouter } from "next/navigation";
