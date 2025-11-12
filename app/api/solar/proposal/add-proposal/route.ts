@@ -1,4 +1,4 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/app/lib/db";
 import Proposal from "@/app/models/Proposal";
 
@@ -7,8 +7,8 @@ interface ProposalData {
   [key: string]: any;
 }
 
-export async function POST(req: Request) {
-  console.log("📩 [API] POST /api/proposal called");
+export async function POST(req: NextRequest) {
+  console.log("📩 [API] POST /api/solar/proposal called");
 
   try {
     console.log("🔌 Connecting to database...");
@@ -41,6 +41,7 @@ export async function POST(req: Request) {
   } catch (err: any) {
     console.error("❌ [ERROR] Something went wrong while saving proposal:", err);
 
+    // Handle duplicate key error
     if (err.code === 11000) {
       console.warn("⚠️ Duplicate key error detected:", err.keyValue);
       return NextResponse.json(

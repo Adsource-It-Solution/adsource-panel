@@ -1,43 +1,75 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Proposal from "@/app/models/Proposal";
 import connectDB from "@/app/lib/db";
 
+// ====================== GET ======================
 export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  await connectDB();
-  const proposal = await Proposal.findById(params.id);
-  if (!proposal)
-    return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
-  return NextResponse.json(proposal);
-}
-
-export async function PUT(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
-  await connectDB();
-  const body = await req.json();
-  const { _id, ...updateData } = body;
-  const updated = await Proposal.findByIdAndUpdate(params.id, updateData, {
-    new: true,
-    runValidators: true,
-    });
-  return NextResponse.json({
-    message: "✅ Proposal updated successfully",
-    proposal: updated,
-  });
-}
-
-export async function DELETE(
-  req: Request,
+  req: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await context.params;
+  try {
+    await connectDB();
 
-  await connectDB();
-  await Proposal.findByIdAndUpdate(id, { deletedAt: new Date() });
+    const { id } = await context.params;
+    const proposal = await Proposal.findById(id);
 
-  return NextResponse.json({ message: "Proposal moved to Recycle Bin" });
+    if (!proposal) {
+      return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(proposal, { status: 200 });
+  } catch (err: any) {
+    console.error("GET /proposal/[id] error:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+// ====================== PUT ======================
+export async function PUT(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectDB();
+
+    const { id } = await context.params;
+    const body = await req.json();
+    const { _id, ...updateData } = body;
+
+    const updatedProposal = await Proposal.findByIdAndUpdate(id, updateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!updatedProposal) {
+      return NextResponse.json({ error: "Proposal not found" }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: "✅ Proposal updated successfully", proposal: updatedProposal },
+      { status: 200 }
+    );
+  } catch (err: any) {
+    console.error("PUT /proposal/[id] error:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
+}
+
+// ====================== DELETE ======================
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  try {
+    await connectDB();
+
+    const { id } = await context.params;
+
+    await Proposal.findByIdAndUpdate(id, { deletedAt: new Date() });
+
+    return NextResponse.json({ message: "Proposal moved to Recycle Bin" }, { status: 200 });
+  } catch (err: any) {
+    console.error("DELETE /proposal/[id] error:", err);
+    return NextResponse.json({ error: err.message }, { status: 500 });
+  }
 }
