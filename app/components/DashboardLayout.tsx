@@ -250,7 +250,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
                 <MenuIcon />
               </IconButton>
             )}
-            <Image src={companylogo} alt="Logo" width={120} height={50} />
+            <Link href="/user-dashboard"><Image src={companylogo} alt="Logo" width={120} height={50} /></Link>
           </Box>
           {!isMobile && (
             <Box sx={{ display: "flex", gap: 5 }}>

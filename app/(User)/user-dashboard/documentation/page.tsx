@@ -4,9 +4,10 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, FileText, Award, FilePlus, SquareUser } from "lucide-react";
 import Link from "next/link";
-
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 const sections = [
+    { id: "login", title: "Get Login Details", icon: <LockOpenIcon /> },
     { id: "UserProfile", title: "User Profile", icon: <SquareUser /> },
     { id: "solar-proposal", title: "Solar Proposal PDF Generation", icon: <FileText /> },
     { id: "certificate", title: "Certificate Generation", icon: <Award /> },
@@ -16,23 +17,23 @@ const sections = [
 const userProfile = [
     {
         title: "1️⃣ View and Edit Your Profile",
-        desc: "Access your personal dashboard to view and update your name, email, and contact details. Upload your profile photo and manage your account securely.",
-        img: ["/images/profile-overview.png", "/images/profile-edit.png"],
+        desc: "Access your personal dashboard to view your name, email, and contact details. Manage your account securely.",
+        img: ["/images/user_profile.png",],
     },
     {
         title: "2️⃣ Add or Update Company Details",
         desc: "Easily add your business information — logo, address, GST number, and contact details. This data automatically appears on your generated PDFs and proposals.",
-        img: ["/images/company-form.png", "/images/company-preview.png"],
+        img: ["/images/template2.png", "/images/company_preview.png"],
     },
     {
         title: "3️⃣ Track Your Proposals and Progress",
         desc: "Monitor all your created proposals in one place. View status (Draft, Sent, Approved), download previous files, and check analytics like proposal views and success rate.",
-        img: ["/images/proposal-list.png", "/images/proposal-progress.png"],
+        img: ["/images/pdfusagegraph.png"],
     },
     {
         title: "4️⃣ Manage Templates and Settings",
         desc: "Access saved PDF templates, adjust your default styles, and fine-tune branding preferences — all synced with your account.",
-        img: ["/images/template-dashboard.png", "/images/settings-page.png"],
+        img: ["/images/details_profile.png", "/images/pdfusagegraph.png"],
     },
 ];
 
@@ -93,26 +94,211 @@ const steps = [
     {
         title: "1️⃣ Check the Layout",
         desc: "Design your other section with pdf design shown with the input filed and add the field and that are realvent to add ",
-        img: ["/images/custom-template-1.png", "/images/custom-template-2.png"],
+        img: ["/images/receipt.png", "/images/id-card.png"],
     },
     {
         title: "2️⃣ Insert Dynamic Data",
         desc: "Add smart variables for client names, pricing, or proposal details. Your templates auto-fill data at runtime.",
-        img: ["/images/custom-template-data.png"],
+        img: ["/images/receipt-placeholder.png", "/images/id-placeholder.png"],
     },
     {
         title: "3️⃣ Save & Reuse",
         desc: "Save your templates to the cloud. Easily apply them across multiple clients or project types in seconds.",
-        img: ["/images/custom-template-save.png", "/images/custom-template-preview.png"],
+        img: ["/images/receipt-placeholder.png", "/images/id-placeholder.png"],
     },
 ];
 
 
 export default function DocumentationPage() {
-    const [activeSection, setActiveSection] = useState("solar-proposal");
+    const [activeSection, setActiveSection] = useState("login");
 
     const renderContent = () => {
         switch (activeSection) {
+            case "login":
+                return (
+                    <div className="py-20 px-6 md:px-16 bg-gray-50 space-y-12">
+                        {/* Header */}
+                        <motion.div
+                            className="text-center max-w-4xl mx-auto space-y-4"
+                            initial={{ opacity: 0, y: -16 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            <h1 className="text-4xl md:text-5xl font-extrabold text-green-700">
+                                How to Get Your Login Email & Password
+                            </h1>
+                            <p className="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">
+                                If you don't yet have a login, the admin will create a secure account for you. Follow the steps
+                                below to request credentials, what the admin will do, and how to sign in safely.
+                            </p>
+                        </motion.div>
+
+                        {/* Steps */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <motion.div
+                                className="bg-white rounded-2xl shadow-md p-6"
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
+                                <h3 className="text-xl font-semibold text-gray-800 mb-3">1. Request Access</h3>
+                                <ol className="list-decimal list-inside text-gray-700 space-y-2">
+                                    <li>Open the <strong>Contact Admin</strong> form or email the support address.</li>
+                                    <li>Provide required details: full name, company name, phone, email, and role.</li>
+                                    <li>Specify what access you need (e.g., create proposals, view invoices, admin privileges).</li>
+                                </ol>
+                            </motion.div>
+
+                            <motion.div
+                                className="bg-white rounded-2xl shadow-md p-6"
+                                initial={{ opacity: 0, y: 18 }}
+                                transition={{ duration: 0.6, delay: 0.05 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                            >
+                                <h3 className="text-xl font-semibold text-gray-800 mb-3">2. Admin: Create Account</h3>
+                                <ul className="list-disc list-inside text-gray-700 space-y-2">
+                                    <li>Admin verifies your details and creates an account tied to your email.</li>
+                                    <li>Admin sets a secure temporary password (or invites you via a secure signup link).</li>
+                                    <li>Admin sends credential details (see sample message below).</li>
+                                </ul>
+                            </motion.div>
+
+                            <motion.div
+                                className="bg-white rounded-2xl shadow-md p-6"
+                                initial={{ opacity: 0, y: 18 }}
+                                transition={{ duration: 0.6, delay: 0.05 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                            >
+                                <h3 className="text-xl font-semibold text-gray-800 mb-3">3. Sign In & Secure Your Account</h3>
+                                <ul className="list-disc list-inside text-gray-700 space-y-2">
+                                    <li>Use the emailed email & temporary password to sign in at the login page.</li>
+                                    <li>Change the temporary password immediately to a strong, unique password.</li>
+                                    <li>Enable 2-factor authentication if available in your profile settings.</li>
+                                </ul>
+                            </motion.div>
+                        </div>
+
+                        {/* Visual / Illustration */}
+                        <motion.div
+                            className="bg-white rounded-3xl shadow-lg p-8 md:flex md:items-center gap-8"
+                            initial={{ opacity: 0, y: 18 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <div className="md:w-1/2 space-y-4">
+                                <h2 className="text-2xl font-bold text-gray-800">What the Admin Will Send</h2>
+                                <p className="text-gray-600">
+                                    Admins typically send either a secure invitation link or a temporary username & password.
+                                    The message will include:
+                                </p>
+                                <ul className="list-disc list-inside text-gray-700 space-y-1">
+                                    <li>Your login email address</li>
+                                    <li>A temporary password OR a secure sign-up link</li>
+                                    <li>Quick steps to sign in and a prompt to change password</li>
+                                    <li>Contact info in case of issues</li>
+                                </ul>
+                            </div>
+
+                            <div className="md:w-1/2">
+                                {/* Placeholder image box — replace with screenshot */}
+                                <div className="rounded-2xl border border-gray-100 overflow-hidden shadow-sm bg-linear-to-br from-green-50 to-white p-6 h-full">
+                                    <div className="w-full h-48 md:h-56 flex items-center justify-center text-gray-400">
+                                        Credential Email Preview (screenshot)
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Sample Admin Email */}
+                        <motion.div
+                            className="bg-white rounded-3xl shadow-md p-8"
+                            initial={{ opacity: 0, y: 18 }}
+                            transition={{ duration: 0.6, delay: 0.05 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                        >
+                            <h3 className="text-2xl font-semibold text-gray-800 mb-4">Sample Admin Message</h3>
+
+                            <div className="bg-gray-50 border border-gray-100 rounded-xl p-6">
+                                <pre className="whitespace-pre-wrap text-sm text-gray-800">
+                                    {`Subject: Your Adsource Account — Access Details
+          
+Hello [User Name],
+          
+An account has been created for you on the Adsource PDF platform.
+          
+Login Email: user@example.com
+Temporary Password: P@ssw0rd!123
+          
+Please sign in at https://yourdomain.com/login and change your password immediately.
+For security, we recommend using a unique password and enabling two-factor authentication from your profile.
+          
+If you did not request this account or have any issues, contact admin at admin@yourdomain.com.
+          
+Regards,
+Adsource Support Team`}
+                                </pre>
+                            </div>
+                        </motion.div>
+
+                        {/* Security Notes & Best Practices */}
+                        <motion.div
+                            className="bg-white rounded-3xl shadow-md p-8"
+                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 18 }}
+                            transition={{ duration: 0.6, delay: 0.05 }}
+                        >
+                            <h3 className="text-2xl font-semibold text-gray-800 mb-3">Security Notes</h3>
+                            <ul className="list-disc list-inside text-gray-700 space-y-2">
+                                <li>Temporary passwords expire after they are used or after a short period.</li>
+                                <li>Never share your password by unsecured channels (e.g., plain SMS). Request a secure link if needed.</li>
+                                <li>Change the temporary password immediately and use a long, unique password.</li>
+                                <li>Enable 2FA if your account supports it — this greatly improves account security.</li>
+                            </ul>
+                        </motion.div>
+
+                        {/* FAQ */}
+                        <motion.div
+                            className="bg-white rounded-3xl shadow-md p-8 space-y-6"
+
+                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 18 }}
+                            transition={{ duration: 0.6, delay: 0.05 }}
+
+                        >
+                            <h3 className="text-2xl font-semibold text-gray-800">FAQ</h3>
+
+                            <div>
+                                <h4 className="font-semibold text-gray-800">Q: How long before I get access?</h4>
+                                <p className="text-gray-700">Admin will process your request and share credentials following verification.</p>
+                            </div>
+
+                            <div>
+                                <h4 className="font-semibold text-gray-800">Q: I didn't receive the email — what now?</h4>
+                                <p className="text-gray-700">Check spam/junk folders, confirm the email address you provided, and contact admin if still missing.</p>
+                            </div>
+
+                            <div>
+                                <h4 className="font-semibold text-gray-800">Q: Can I request additional permissions later?</h4>
+                                <p className="text-gray-700">Yes — contact the admin and request the additional access required (they will verify and grant it).</p>
+                            </div>
+                        </motion.div>
+
+                        {/* CTA */}
+                        <motion.div
+                            className="text-center py-10"
+                            initial={{ opacity: 0, y: 18 }}
+                            transition={{ duration: 0.6, delay: 0.05 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                        >
+                            <Link href="/contact" className="inline-block">
+                                <button className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-full font-semibold shadow">
+                                    Contact Admin to Request Login
+                                </button>
+                            </Link>
+                            <p className="text-gray-500 mt-3">Need help? Email <strong className="text-gray-800">info@adsourceitsolutions.com</strong></p>
+                        </motion.div>
+                    </div>
+                )
             case "solar-proposal":
                 return (
                     <div className="py-20 px-6 md:px-16 bg-gray-50 space-y-32">
@@ -262,7 +448,7 @@ export default function DocumentationPage() {
                             {/* Images Section */}
                             <div className="md:w-1/2 flex flex-wrap gap-6 justify-center">
                                 {[
-                                    "/images/certificate-upload.png",
+                                    "/images/certificate-example.png",
                                     "/images/certificate-placeholder.png",
                                     "/images/certificate-example.png",
                                 ].map((img, i) => (
@@ -378,10 +564,12 @@ export default function DocumentationPage() {
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6 }}
                         >
-                            <h1 className="text-5xl font-extrabold text-green-700">👤 User Profile & Dashboard</h1>
+                            <h1 className="text-5xl font-extrabold text-green-700">
+                                👤 User Profile & Dashboard
+                            </h1>
                             <p className="text-gray-600 text-xl max-w-3xl mx-auto leading-relaxed">
-                                Learn how to personalize your experience — manage your company profile, track proposals, and optimize your
-                                PDF generation workflow.
+                                Learn how to personalize your experience — manage your company profile,
+                                track proposals, and optimize your PDF generation workflow.
                             </p>
                         </motion.div>
 
@@ -390,14 +578,16 @@ export default function DocumentationPage() {
                             <motion.section
                                 key={i}
                                 className={`flex flex-col md:flex-row ${i % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
-                                    } items-center gap-16 md:gap-20`}
+                                    } items-center gap-12 md:gap-20`}
                                 initial={{ opacity: 0, y: 50 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8 }}
                             >
                                 {/* Text */}
-                                <div className="md:w-1/2 space-y-6">
-                                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">{s.title}</h2>
+                                <div className="md:w-1/2 space-y-6 text-center md:text-left">
+                                    <h2 className="text-3xl md:text-4xl font-bold text-gray-800">
+                                        {s.title}
+                                    </h2>
                                     <p className="text-gray-600 text-lg leading-relaxed">{s.desc}</p>
                                 </div>
 
@@ -408,10 +598,17 @@ export default function DocumentationPage() {
                                             key={index}
                                             src={img}
                                             alt={s.title}
-                                            className="rounded-3xl shadow-lg border border-gray-100 object-cover w-full md:w-[46%] hover:scale-[1.03] transition-all duration-300"
+                                            className="
+                                                rounded-lg shadow-xl border border-gray-200 object-cover
+                                                w-[95%] sm:w-[85%] md:w-[80%] lg:w-[70%] xl:w-[65%]
+                                                max-h-[500px] sm:max-h-[600px] md:max-h-[650px] lg:max-h-[700px]
+                                                hover:scale-[1.06] hover:shadow-2xl
+                                                transition-all duration-500 ease-in-out
+                                             "
                                             initial={{ opacity: 0, scale: 0.9 }}
                                             whileInView={{ opacity: 1, scale: 1 }}
-                                            transition={{ duration: 0.6, delay: index * 0.2 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.7, delay: index * 0.2 }}
                                         />
                                     ))}
                                 </div>
@@ -425,17 +622,22 @@ export default function DocumentationPage() {
                             whileInView={{ opacity: 1 }}
                             transition={{ duration: 0.8 }}
                         >
-                            <h2 className="text-4xl font-semibold">📈 Manage Everything in One Place</h2>
+                            <h2 className="text-4xl font-semibold">
+                                📈 Manage Everything in One Place
+                            </h2>
                             <p className="text-lg max-w-2xl mx-auto text-gray-100">
-                                Keep your data organized, proposals tracked, and branding consistent — directly from your personalized dashboard.
+                                Keep your data organized, proposals tracked, and branding consistent —
+                                directly from your personalized dashboard.
                             </p>
                             <Link
-                                href=".user-dashboard/UserProfile"
-                                className="bg-white text-green-700 px-10 py-4 rounded-full text-lg font-bold hover:bg-green-100 transition-all duration-300 shadow-xl">
+                                href="/user-dashboard/UserProfile"
+                                className="bg-white text-green-700 px-10 py-4 rounded-full text-lg font-bold hover:bg-green-100 transition-all duration-300 shadow-xl"
+                            >
                                 🧭 Go to My Dashboard
                             </Link>
                         </motion.div>
                     </div>
+
                 );
             default:
                 return null;

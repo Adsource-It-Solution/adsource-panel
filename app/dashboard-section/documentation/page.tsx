@@ -4,9 +4,11 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Menu, FileText, Award, FilePlus, SquareUser } from "lucide-react";
 import Link from "next/link";
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 
 
 const sections = [
+    {id: "login", title: "Get Login Details", icon: <LockOpenIcon/> },
     { id: "UserProfile", title: "User Profile", icon: <SquareUser /> },
     { id: "solar-proposal", title: "Solar Proposal PDF Generation", icon: <FileText /> },
     { id: "certificate", title: "Certificate Generation", icon: <Award /> },

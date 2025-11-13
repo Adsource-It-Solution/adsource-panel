@@ -9,8 +9,6 @@ import {
   Typography,
   Button,
   Container,
-  Grid,
-  Card,
   CardContent,
   IconButton,
   Paper,
@@ -20,6 +18,29 @@ import companylogo from "@/app/assets/adsource-logo.webp";
 import NextLink from "next/link";
 
 export default function DashboardHome() {
+  const socialLinks = [
+    {
+      icon: Facebook,
+      href: "https://www.facebook.com/AdSourceITSolutions",
+      label: "Facebook",
+    },
+    {
+      icon: Twitter,
+      href: "https://twitter.com/yourcompany",
+      label: "Twitter",
+    },
+    {
+      icon: Instagram,
+      href: "https://instagram.com/yourcompany",
+      label: "Instagram",
+    },
+    {
+      icon: LinkedIn,
+      href: "https://www.linkedin.com/company/adsource-it-solutions",
+      label: "LinkedIn",
+    },
+  ];
+
   return (
     <Box sx={{ p: { xs: 2, md: 4 }, backgroundColor: "#f5f7fb", minHeight: "100vh" }}>
       {/* 🧭 HEADER */}
@@ -64,7 +85,7 @@ export default function DashboardHome() {
           {
             icon: <BoltIcon sx={{ color: "#f9a825" }} />,
             title: "Solar Proposals",
-            desc: "Create professional solar proposals with auto-filled client details.",
+            desc: "Create professional solar proposals with auto-filled details.",
             bg: "#fff8e1",
             color: "#f9a825",
           },
@@ -225,20 +246,32 @@ export default function DashboardHome() {
                 your complete online success story.
               </Typography>
               <Box>
-                {[Facebook, Twitter, Instagram, LinkedIn].map((Icon, index) => (
-                  <IconButton
-                    key={index}
-                    size="small"
-                    sx={{
-                      bgcolor: "rgba(255,255,255,0.1)",
-                      color: "#fff",
-                      mr: 1,
-                      "&:hover": { bgcolor: "#f36f21" },
-                    }}
-                  >
-                    <Icon fontSize="small" />
-                  </IconButton>
-                ))}
+              <div className="flex justify-center md:justify-start gap-3 mt-4 flex-wrap">
+      {socialLinks.map(({ icon: Icon, href, label }, index) => (
+        <a
+          key={index}
+          href={href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={label}
+        >
+          <IconButton
+            size="medium"
+            sx={{
+              bgcolor: "rgba(255,255,255,0.1)",
+              color: "#fff",
+              transition: "all 0.3s ease",
+              "&:hover": {
+                bgcolor: "#f36f21",
+                transform: "scale(1.1)",
+              },
+            }}
+          >
+            <Icon fontSize="small" />
+          </IconButton>
+        </a>
+      ))}
+    </div>
               </Box>
             </Box>
 
@@ -249,8 +282,9 @@ export default function DashboardHome() {
               </Typography>
               {[
                 { text: "Home", href: "/" },
-                { text: "Contact Us", href: "/contact" },
-                { text: "Company Website", href: "https://adsourceitsolutions.com/" },
+                { text: "Contact Us", href: "/dashboard-section/contact" },
+                {text: "Term & Condition", href: "/dashboard-section/term-cond"},
+                {text: "Settings", href: "/dashboard-section/setting"},
               ].map(({ text, href }) => (
                 <Box
                   key={text}
@@ -302,7 +336,7 @@ export default function DashboardHome() {
               }}
             >
               <Typography variant="h6" sx={{ mb: 2, fontWeight: 600 }}>
-                Have a project in your mind?
+                Want to generate new type of document?
               </Typography>
               <Button
                 variant="contained"
@@ -315,7 +349,8 @@ export default function DashboardHome() {
                   "&:hover": { bgcolor: "#fb8c00" },
                 }}
               >
-                <span className="text-xs font-bold">Contact</span>
+                <Link href="https://wa.me/+919716234515"
+                className="text-xs">Contact</Link>
               </Button>
             </Box>
           </Box>
