@@ -190,9 +190,34 @@ export default function ProfilePage() {
       console.log("🟡 handleSave triggered");
       console.log("📦 Sending companyForm data:", companyForm);
       console.log("👤 User ID:", user?._id);
-
+  
+      // Basic validation
+      if (!user?._id) {
+        setSnackbar({
+          open: true,
+          message: "User ID not found. Please log in again.",
+          severity: "error",
+        });
+        return;
+      }
+  
+      // Detect whether company exists
+      const checkRes = await fetch(`/api/User/updateCompany/${user._id}`, {
+        method: "GET",
+        cache: "no-store",
+      });
+  
+      const checkData = await checkRes.json();
+      console.log("🔍 Company check response:", checkData);
+  
+      const companyExists = checkData?.success && checkData?.company;
+  
+      // Decide method dynamically
+      const method = companyExists ? "PUT" : "POST";
+      console.log(`🧩 Using HTTP method: ${method}`);
+  
       const res = await fetch(`/api/User/updateCompany/${user._id}`, {
-        method: "POST",
+        method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: companyForm.name,
@@ -201,39 +226,39 @@ export default function ProfilePage() {
           registrationNumber: companyForm.registrationNumber,
           panNumber: companyForm.panNumber,
           gstNumber: companyForm.gstNumber,
+          email: companyForm.email,
+          contactNumber: companyForm.contactNumber,
+          website: companyForm.website,
         }),
       });
-
-      console.log("📨 Raw Response:", res);
-
+  
       const data = await res.json();
-      console.log("✅ Parsed Response Data:", data);
-
+      console.log("✅ Server response:", data);
+  
       if (data.success) {
-        console.log("✅ Company updated successfully:", data);
         setSnackbar({
           open: true,
-          message: "Company details updated!",
+          message: companyExists
+            ? "Company details updated successfully!"
+            : "Company details created successfully!",
           severity: "success",
         });
         setOpenCompanyDialog(false);
+        // 🔄 Refresh data after update
+        await fetchDashboard();
       } else {
-        console.warn("⚠️ Failed to update company details:", data);
-        setSnackbar({
-          open: true,
-          message: "Failed to update company details!",
-          severity: "error",
-        });
+        throw new Error(data.message || "Failed to save company details");
       }
     } catch (err: any) {
-      console.error("❌ Error during company update:", err);
+      console.error("❌ Error during company save:", err);
       setSnackbar({
         open: true,
-        message: err.message,
+        message: err.message || "Something went wrong while saving details",
         severity: "error",
       });
     }
   };
+  
 
   return (
     <Box sx={{ p: { xs: 2, md: 4 }, bgcolor: "#f9fafb", minHeight: "100vh" }}>

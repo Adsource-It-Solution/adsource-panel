@@ -45,7 +45,7 @@ const SolarRoutes = [
 ];
 
 const BillingRoutes = [
-  { path: "/user-dashboard/dashboard-billing/invoice", name: "Invoice", icon: <LiaReceiptSolid />, roles: ["ngo", "admin"] },
+  { path: "/user-dashboard/dashboard-billing/bill", name: "Invoice", icon: <LiaReceiptSolid />, roles: ["ngo", "admin"] },
   { path: "/user-dashboard/dashboard-billing/summary", name: "Summary", icon: <PiCertificateDuotone />, roles: ["ngo", "admin"] },
 ];
 
