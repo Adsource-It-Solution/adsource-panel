@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ClientOnly } from "@/app/components/ClientOnly";
+import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -19,28 +20,28 @@ export default function LoginPage() {
     e.preventDefault();
     setError(null);
     setLoading(true);
-  
+
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
       });
-  
+
       const data = await res.json();
-  
+
       if (!res.ok) {
         setError(data.message || "Login failed");
         setLoading(false);
         return;
       }
-  
+
       // 🧠 Handle both string and array roles
       const roles = Array.isArray(data.role) ? data.role : [data.role];
       const primaryRole = roles[0]?.toLowerCase(); // pick first or prefer ngo, etc.
-  
+
       localStorage.setItem("token", data.token);
-  
+
       // ✅ Role-based redirection
       if (roles.includes("admin")) {
         router.push("/admin-dashboard");
@@ -59,56 +60,102 @@ export default function LoginPage() {
       setLoading(false);
     }
   };
-  
+
   return (
     <ClientOnly>
-      <div
-        className="flex items-center justify-center min-h-screen bg-linear-to-br from-blue-900 via-slate-800 to-gray-900"
+    <div className="flex items-center justify-center min-h-screen bg-[#021526] px-4">
+
+      {/* Main Card */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.9, y: 30 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="relative w-full max-w-4xl bg-[#031c2c] rounded-3xl overflow-hidden shadow-[0_0_30px_rgba(0,255,255,0.3)] border border-cyan-400/40 flex"
       >
-        <div className="bg-white/10 backdrop-blur-lg p-8 rounded-2xl shadow-lg w-96 border border-gray-700">
-          <h1 className="text-3xl font-bold mb-6 text-center text-white">
-            Role-Based Login
-          </h1>
 
-          <form onSubmit={handleLogin} className="space-y-4">
-            <div>
-              <label className="block mb-1 text-sm font-medium text-white">
-                Email
-              </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-400 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90"
-                required
-              />
-            </div>
+        {/* LEFT LOGIN PANEL */}
+        <div className="w-1/2 px-10 py-12 text-white flex flex-col justify-center">
+          <motion.h2
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-3xl font-bold mb-8 text-center"
+          >
+            Login
+          </motion.h2>
 
-            <div>
-              <label className="block mb-1 text-sm font-medium text-white">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-400 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white/90"
-                required
-              />
-            </div>
+          <form onSubmit={handleLogin} className="space-y-6">
+            {/* Email */}
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}>
+              <label className="text-sm">Username</label>
+              <div className="flex items-center border-b border-gray-400 mt-1">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full bg-transparent py-2 px-1 focus:outline-none text-white"
+                  required
+                />
+                <span className="text-gray-300">👤</span>
+              </div>
+            </motion.div>
+
+            {/* Password */}
+            <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.4 }}>
+              <label className="text-sm">Password</label>
+              <div className="flex items-center border-b border-gray-400 mt-1">
+                <input
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-transparent py-2 px-1 focus:outline-none text-white"
+                  required
+                />
+                <span className="text-gray-300">🔒</span>
+              </div>
+            </motion.div>
 
             {error && <p className="text-red-400 text-center">{error}</p>}
 
-            <button
+            {/* Login Button */}
+            <motion.button
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.5 }}
               type="submit"
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+              className="w-full py-3 rounded-full bg-gradient-to-r from-cyan-400 to-teal-500 text-white font-semibold shadow-[0_0_15px_rgba(0,255,255,0.5)] hover:shadow-[0_0_25px_rgba(0,255,255,0.8)] transition-all"
             >
               {loading ? "Logging in..." : "Login"}
-            </button>
+            </motion.button>
           </form>
         </div>
-      </div>
-    </ClientOnly>
+
+        {/* RIGHT PANEL with DIAGONAL CLIP */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
+          className="w-1/2"
+          style={{
+            clipPath: "polygon(0 0, 100% 0, 100% 100%, 20% 100%)",
+          }}
+        >
+          <div className="h-full bg-gradient-to-br from-cyan-400 to-teal-500 opacity-90 flex flex-col items-center justify-center text-white p-10">
+            <h2 className="text-4xl font-extrabold text-center">
+              WELCOME <br /> BACK!
+            </h2>
+            <p className="mt-4 text-center text-white/90">
+                    Login and get start working with us. 
+            </p>
+            <p className="mt-4 text-center text-white/90">
+                  ❤️ Love to have you back.
+            </p>
+          </div>
+        </motion.div>
+      </motion.div>
+    </div>
+  </ClientOnly>
+
   );
 }

@@ -398,7 +398,7 @@ export default function Home() {
             Need help getting started?
           </Typography>
           <Typography variant="body2" sx={{ color: "#cbd5e1" }}>
-            Check out our documentation and guides to make the most of your admin panel.
+            Check out our documentation and guides to make the most of your pdf.
           </Typography>
         </Box>
         <Link href="/dashboard-section/documentation"
@@ -461,8 +461,10 @@ export default function Home() {
               <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
                 {[
                   { text: "Home", href: "/" },
-                  { text: "Contact Us", href: "/contact" },
-                  { text: "Company website", href: "https://adsourceitsolutions.com/" }
+                  { text: "Contact Us", href: "/dashboard-section/contact" },
+                  {text: "Term & condition", href: "/dashboard-section/term-cond"},
+                  {text: "Settings", href: "/dashboard-section/setting"},
+                  { text: "Company website", href: "https://adsourceitsolutions.com/" },
                 ].map(({ text, href }) => (
                   <Box
                     key={text}
@@ -580,7 +582,7 @@ export default function Home() {
               </Link>
               /
               <Link
-                href="#"
+                href="/dashboard-section/term-cond"
                 style={{
                   textDecoration: "none",
                   color: "inherit",

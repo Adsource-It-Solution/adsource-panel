@@ -1,11 +1,46 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin } from "lucide-react"; // lightweight icons
+import { Mail, Phone, MapPin } from "lucide-react";
+import { useState } from "react";
+import {toast} from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
+
 
 export default function ContactPage() {
+    const [loading, setLoading] = useState(false);
+    const handleSubmit = async (e: any) => {
+        e.preventDefault();
+        setLoading(true);
+
+        const form = new FormData(e.target);
+
+        const data = {
+            name: form.get("name"),
+            email: form.get("email"),
+            message: form.get("message"),
+        };
+
+        const res = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+
+        const result = await res.json();
+
+        setLoading(false);
+
+        if (result.success) {
+            toast.success("Message send successfully")
+            e.target.reset();
+        } else {
+            toast.error("Failed to send Message")
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-50 py-16 px-6 md:px-12 lg:px-24">
+            <Toaster position="top-right" />
             {/* Header */}
             <motion.div
                 className="text-center mb-12"
@@ -88,42 +123,60 @@ export default function ContactPage() {
                         Send a Message
                     </h2>
 
-                    <form className="space-y-5">
+                    <form className="space-y-5" onSubmit={handleSubmit}>
                         <div>
                             <label className="block text-gray-700 font-medium mb-1">Name</label>
                             <input
+                                name="name"
                                 type="text"
                                 placeholder="Your name"
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
+                                required
                             />
                         </div>
 
                         <div>
                             <label className="block text-gray-700 font-medium mb-1">Email</label>
                             <input
+                                name="email"
                                 type="email"
                                 placeholder="you@example.com"
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition"
+                                required
                             />
                         </div>
 
                         <div>
                             <label className="block text-gray-700 font-medium mb-1">Message</label>
                             <textarea
+                                name="message"
                                 rows={4}
                                 placeholder="Your message here..."
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none transition resize-none"
+                                required
                             />
                         </div>
 
                         <button
                             type="submit"
-                            className="w-full bg-green-600 text-white font-semibold py-3 rounded-lg hover:bg-green-700 transition-all"
+                            disabled={loading}
+                            className={`w-full bg-green-600 text-white font-semibold py-3 rounded-lg transition-all 
+            ${loading ? "opacity-70 cursor-not-allowed" : "hover:bg-green-700"}`}
                         >
-                            Send Message
+                            {loading ? (
+                                <div className="flex items-center justify-center gap-2">
+                                    <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                                    Sending...
+                                </div>
+                            ) : (
+                                "Send Message"
+                            )}
                         </button>
+
                         <span className="text-sm text-red-700">We are working to add chatBot to help you more.</span>
                     </form>
+
+
                 </motion.div>
             </div>
         </div>
